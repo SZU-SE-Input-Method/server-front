@@ -27,7 +27,7 @@
 	<link rel="stylesheet" href="static/css/dark-theme.css">
 	<link rel="stylesheet" href="static/css/semi-dark.css">
 	<link rel="stylesheet" href="static/css/header-colors.css">
-	<title>防诈骗输入法-公有短语</title>
+	<title>防诈骗输入法</title>
 </head>
 
 <body>
@@ -73,7 +73,7 @@
 						<div class="menu-title">知识</div>
 					</a>
 				</li>
-                <li>
+				<li>
 					<a href="#">
 						<div class="parent-icon"><i class='bx bx-book-reader'></i></div>
 						<div class="menu-title">案例</div>
@@ -118,7 +118,7 @@
 		<div class="page-wrapper">
 			<div class="page-content">
 
-                <!--start 主体顶部-->
+				<!--start 主体顶部-->
                 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 					<div class="breadcrumb-title pe-3">短语</div>
 					<div class="ps-3">
@@ -126,100 +126,60 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx bx-text"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">公有短语</li>
+								<li class="breadcrumb-item active" aria-current="page">添加短语</li>
 							</ol>
 						</nav>
 					</div>
 					<div class="ms-auto">
 						<div class="btn-group">
-							<button type="button" class="btn btn-primary">操作</button>
-							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	
-								<span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	
-                                <a class="dropdown-item" href="add_phrases.html">新增短语</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="javascript:;">按主题排序</a>
-								<a class="dropdown-item" href="javascript:;">按修改时间排序</a>
-								<a class="dropdown-item" href="javascript:;">按新增时间排序</a>
-							</div>
+							<button type="button" class="btn btn-primary" onclick="window.history.back();">返回</button>
 						</div>
 					</div>
 				</div>
                 <!--end 主体顶部-->
 
-                <!--start 表格-->
+				<!--start 表格-->
                 <hr>
                 <div class="card">
                     <div class="card-body">
-                        <table class="table mb-0 table-hover" id="public_phrases_table">
+                        <table class="table mb-0 table-hover" id="add_phrases_table">
+                            <colgroup>
+                                <col style="width: 25%">
+                                <col style="width: 70%">
+                            </colgroup>
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Text</th>
-                                    <th scope="col">Time</th>
-									<th scope="col">Operation</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>虹咲</td>
-                                    <td>虹之咲学园偶像同好会</td>
-                                    <td>2023/2/28 17:00</td>
-									<td>
-										<div class="d-flex order-actions">
-											<a href="#"><i class="bx bxs-edit"></i></a>
-											<p>&nbsp;&nbsp;&nbsp;</p>
-											<a href="javascript: delete_phrases(1);"><i class="bx bxs-trash"></i></a>
-										</div>
-									</td>
+                                    <td><input class="form-control" type="text" placeholder="标题"></td>
+                                    <td><input class="form-control" type="text" placeholder="内容"></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">2</th>
-                                    <td>虹咲</td>
-                                    <td>虹之咲学园偶像同好会</td>
-                                    <td>2023/2/28 17:00</td>
-									<td>
-										<div class="d-flex order-actions">
-											<a href="#"><i class="bx bxs-edit"></i></a>
-											<p>&nbsp;&nbsp;&nbsp;</p>
-											<a href="javascript: delete_phrases(2);"><i class="bx bxs-trash"></i></a>
-										</div>
-									</td>
+                                    <td><input class="form-control" type="text" placeholder="标题"></td>
+                                    <td><input class="form-control" type="text" placeholder="内容"></td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">3</th>
-                                    <td>虹咲</td>
-                                    <td>虹之咲学园偶像同好会</td>
-                                    <td>2023/2/28 17:00</td>
-									<td>
-										<div class="d-flex order-actions">
-											<a href="#"><i class="bx bxs-edit"></i></a>
-											<p>&nbsp;&nbsp;&nbsp;</p>
-											<a href="javascript: delete_phrases(3);"><i class="bx bxs-trash"></i></a>
-										</div>
-									</td>
+                                    <td><input class="form-control" type="text" placeholder="标题"></td>
+                                    <td><input class="form-control" type="text" placeholder="内容"></td>
                                 </tr>
                             </tbody>
                         </table>
+                        <hr>
+                        <div class="align-items-center">
+                            <div style="float: left;">
+                                <button type="button" class="btn btn-primary" onclick="addrow();">添加更多</button>
+                            </div>
+                            <div style="float: right;">
+                                <button type="button" class="btn btn-primary" onclick="get_tablevalue();">确认提交</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--end 表格-->
-
-				<!--start 进度栏-->
-				<nav aria-label="Page navigation example">
-					<ul class="pagination round-pagination" id="pagelist" style="width: 30%; margin: 0 auto;">
-						<li class="page-item"><a class="page-link" href="javascript:;">Previous</a></li>
-						<li class="page-item active"><a class="page-link" href="javascript:;javascript:;" id="first_page">1</a></li>
-						<li class="page-item"><a class="page-link" href="javascript:;">2</a></li>
-						<li class="page-item"><a class="page-link" href="javascript: get_pagenum();">...</a></li>
-						<li class="page-item"><a class="page-link" href="javascript:;" id="last_page">3</a></li>
-						<li class="page-item"><a class="page-link" href="javascript:;">Next</a></li>
-					</ul>
-				</nav>
-				<!--end 进度栏-->
 
 			</div>
 		</div>
@@ -249,10 +209,7 @@
 
 	<!--self js-->
 	<!--TODO import your js here-->
-	<script src="static/js/pharses.js"></script>
-	<script>
-		
-	</script>
+    <script src="static/js/pharses.js"></script>
 
 </body>
 

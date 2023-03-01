@@ -70,7 +70,7 @@ function init_phrasetext(response)
         var div = document.createElement("div");
         div.setAttribute("class","d-flex order-actions")
         var a1 = document.createElement("a");
-        a1.setAttribute("href","javascript:;");
+        a1.setAttribute("href","javascript: renew_phrases(this);");
         var i1 = document.createElement("i");
         i1.setAttribute("class","bx bxs-edit");
         a1.appendChild(i1);
@@ -79,7 +79,7 @@ function init_phrasetext(response)
         p.appendChild(document.createTextNode("&nbsp;&nbsp;&nbsp;"));
         div.appendChild(p)
         var a2 = document.createElement("a");
-        a2.setAttribute("href","javascript:;");
+        a2.setAttribute("href","javascript: delete_phrases(" + res[i]['pid'] + ");");
         var i2 = document.createElement("i");
         i2.setAttribute("class","bx bxs-trash");
         a2.appendChild(i2);
@@ -192,4 +192,160 @@ function create_listnode(name, value, isactive)
     li_node.appendChild(a_node);
 
     return li_node;
+}
+
+//添加更多行
+function addrow()
+{
+    for (let i = 0; i < 3 ; i++)
+    {
+        var table = document.getElementById("add_phrases_table");
+        var newrow = table.insertRow();
+        var cell1 = newrow.insertCell();
+        var cell2 = newrow.insertCell();
+
+        var newinput1 = document.createElement("input");
+        newinput1.type = "text";
+        newinput1.placeholder = "标题";
+        newinput1.setAttribute("class","form-control");
+        cell1.appendChild(newinput1);
+
+        var newinput2 = document.createElement("input");
+        newinput2.type = "text";
+        newinput2.placeholder = "内容";
+        newinput2.setAttribute("class","form-control");
+        cell2.appendChild(newinput2);
+    }
+}
+
+//上传新增短语
+function get_tablevalue()
+{
+    var table = document.getElementById("add_phrases_table");
+    var rows = table.getElementsByTagName("tr");
+
+    for (var i = 0; i < rows.length; i++) 
+    {
+        var inputs = rows[i].getElementsByTagName("input");
+        for (var j = 0; j < inputs.length / inputs.length; j++) 
+        {
+            var title = inputs[0].value;
+            var text = inputs[1].value;
+            
+            if (title != null && text != null)
+                upload(title,text);
+        }
+    }
+
+    alert("添加成功!");
+    window.history.back();
+}
+
+function upload(title,text)
+{
+    var xhr = new XMLHttpRequest();
+
+    var url = "/phrase";
+    var params = `title=${title}&text=${text}`;
+    xhr.open("POST", url, true);
+    xhr.send(params);
+}
+
+//删除短语
+function delete_phrases(pid)
+{
+    var xhr = new XMLHttpRequest();
+    var url = `/phrase/${pid}`;
+
+    xhr.onreadystatechange = function() 
+    {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) 
+        {
+            var response = JSON.parse(xhr.responseText);
+            alert(response.message);
+            location.reload();
+        }
+        else
+        {
+            alert("删除失败!");
+            location.reload();
+        }
+    };
+
+    xhr.open("DELETE", url);
+    xhr.send();
+}
+
+//修改短语
+const table = document.getElementById('public_phrases_table');
+table.addEventListener('click', handleTableClick);
+
+function handleTableClick(event) 
+{
+    const target = event.target;
+    if (target.tagName.toLowerCase() === 'a') 
+    {
+        event.preventDefault();
+        const row = target.parentNode.parentNode.parentNode;
+        const cells = row.querySelectorAll('td');
+        const cell1 = cells[0];
+        const cell2 = cells[1];
+        const cell3 = cells[3];
+
+        var text1 = cell1.innerHTML;
+        var text2 = cell2.innerHTML;
+        
+        cell1.innerHTML = `<input class="form-control" type="text" value=${text1}>`;
+        cell2.innerHTML = `<input class="form-control" type="text" value=${text2}>`;
+        cell3.innerHTML = '<div class="d-flex order-actions"><button type="button" class="btn btn-info px-3 radius-30" onclick="submitchange(this)">保存</button><p>&nbsp;&nbsp;&nbsp;</p><button type="button" class="btn btn-secondary px-3 radius-30" onclick="cancel(this,`' + text1 + '`,`' + text2 + '`)">取消</button></div>';
+    }
+}
+
+function cancel(button,title,text)
+{
+    const row = button.parentNode.parentNode.parentNode;
+    const pid = row.querySelectorAll('th')[0];
+    const cells = row.querySelectorAll('td');
+    const cell1 = cells[0];
+    const cell2 = cells[1];
+    const cell3 = cells[3];
+
+    cell1.innerHTML = title;
+    cell2.innerHTML = text;
+    cell3.innerHTML = '<div class="d-flex order-actions"><a href="#"><i class="bx bxs-edit"></i></a><p>&nbsp;&nbsp;&nbsp;</p><a href="javascript: delete_phrases(' + pid.innerHTML + ');"><i class="bx bxs-trash"></i></a></div>';
+}
+
+function submitchange(button)
+{
+    const row = button.parentNode.parentNode.parentNode;
+    const pid = row.querySelectorAll('th')[0];
+    const cells = row.querySelectorAll('td');
+    const cell1 = cells[0];
+    const cell2 = cells[1];
+    const input1 = cell1.querySelectorAll("input")[0];
+    const input2 = cell2.querySelectorAll("input")[0];
+
+    xhr.open('PUT', '/phrase');
+    xhr.onreadystatechange = function() 
+    {
+        if (xhr.readyState === 4) 
+        {
+            var response = JSON.parse(xhr.responseText);
+            alert(response.message);
+            location.reload();
+        }
+        else
+        {
+            console.log("修改失败!");
+            location.reload();
+        }
+    };
+    const data = 
+    {
+        pid: pid.innerHTML,
+        title: input1.value,
+        age: input2.value
+    };
+    const requestBody = JSON.stringify(data);
+    xhr.send(requestBody);
 }
