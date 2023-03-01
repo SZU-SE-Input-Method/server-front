@@ -1,6 +1,6 @@
 //author: wch
 
-function initialization()
+function initialization(tablename)
 {
     const querystring = window.location.search;
     const urlparams = new URLSearchParams(querystring);
@@ -18,10 +18,13 @@ function initialization()
             console.log(response);
 
             //初始化短语内容
-            init_phrasetext(response);
+            if (tablename == "public_phrases")
+                public_init_phrasetext(response);
+            else if (tablename == "private_phrases")
+                private_init_phrasetext(reponse);
 
             //初始化进度栏
-            init_pagelist(response);
+            init_pagelist(response,tablename);
             
         } 
         else
@@ -30,19 +33,24 @@ function initialization()
 }
 
 //获取用户输入的进度栏页数
-function get_pagenum()
+function get_pagenum(tablename)
 {
+    var url = "";
     let result = window.prompt("请输入页码:", "1");
     while (result !== null && !/^\d+$/.test(result))
         result = window.prompt("请输入正确的数字页码:", "1");
-    const url = `public_phrases.html?pagenum=${result}`;
+    
+    if (tablename == "public_phrases")
+        url = `public_phrases.html?pagenum=${result}`;
+    else if (tablename == "private_phrases")
+        url = `private_phrases.html?pagenum=${result}`;
 
     if (result !== null)
         window.location.href = url;
 }
 
 //构造页面内容
-function init_phrasetext(response)
+function public_init_phrasetext(response)
 {
     var res = response.data;
 
@@ -58,7 +66,7 @@ function init_phrasetext(response)
         id.appendChild(document.createTextNode(res[i]['pid']));
 
         var title = document.createElement("td");
-        title.appendChild(document.createTextNode(res[i][title]));
+        title.appendChild(document.createTextNode(res[i]['title']));
 
         var text = document.createElement("td");
         text.appendChild(document.createTextNode(res[i]['text']));
@@ -97,8 +105,42 @@ function init_phrasetext(response)
     table.appendChild(tbody);
 }
 
+function private_init_phrasetext(response)
+{
+    var res = response.data;
+
+    var table = document.getElementById("private_phrases_table");
+    var tbody = createElement("tbody");
+
+    for (let i = 0; i < res.length; i++)
+    {
+        var tr = document.createElement("tr");
+
+        var id = document.createElement("th");
+        id.setAttribute("scope","row");
+        id.appendChild(document.createTextNode(res[i]['pid']));
+
+        var title = document.createElement("td");
+        title.appendChild(document.createTextNode(res[i]['title']));
+
+        var text = document.createElement("td");
+        text.appendChild(document.createTextNode(res[i]['text']));
+
+        var time = document.createElement("td");
+        time.appendChild(document.createTextNode(res[i]['create_time']));
+
+        tr.appendChild(id);
+        tr.appendChild(title);
+        tr.appendChild(text);
+        tr.appendChild(time);
+
+        tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+}
+
 //构造进度栏
-function init_pagelist(response)
+function init_pagelist(response,tablename)
 {
     var pagelist = document.getElementById("pagelsit");
     var nowpage = response.nowpage;
@@ -109,11 +151,11 @@ function init_pagelist(response)
     input_node.setAttribute("class","page-item");
     var a_input = document.createElement("a");
     a_input.setAttribute("class","page-link");
-    a_input.setAttribute("href", "javascript: get_pagenum();");
+    a_input.setAttribute("href", `javascript: get_pagenum(${tablename});`);
     a_input.innerText = "...";
     input_node.appendChild(a_node);
 
-    pagelist.appendChild(create_listnode("First page", 1, 0));
+    pagelist.appendChild(create_listnode("First page", 1, 0, tablename));
 
     //两个省略号都不显示
     if (totlepage <= 7)
@@ -121,24 +163,24 @@ function init_pagelist(response)
         for (let i = 1; i <= totlepage; i++)
         {
             if (i != nowpage)
-                pagelist.appendChild(create_listnode(i, i, 0));
+                pagelist.appendChild(create_listnode(i, i, 0, tablename));
             else
-                pagelist.appendChild(create_listnode(i, i, 1));
+                pagelist.appendChild(create_listnode(i, i, 1, tablename));
         }
     }
 
     //显示左省略号
     else if (totlepage > 7 && nowpage > 4)
     {
-        pagelist.appendChild(create_listnode(1, 1, 0));
+        pagelist.appendChild(create_listnode(1, 1, 0, tablename));
         pagelist.appendChild(input_node);
 
         for (let i = nowpage - 2; i <= totlepage; i++)
         {
             if (i != nowpage)
-                pagelist.appendChild(create_listnode(i, i, 0));
+                pagelist.appendChild(create_listnode(i, i, 0, tablename));
             else
-                pagelist.appendChild(create_listnode(i, i, 1));
+                pagelist.appendChild(create_listnode(i, i, 1, tablename));
         }
     }
 
@@ -148,13 +190,13 @@ function init_pagelist(response)
         for (let i = 1; i <= nowpage + 2; i++)
         {
             if (i != nowpage)
-                pagelist.appendChild(create_listnode(i, i, 0));
+                pagelist.appendChild(create_listnode(i, i, 0, tablename));
             else
-                pagelist.appendChild(create_listnode(i, i, 1));
+                pagelist.appendChild(create_listnode(i, i, 1, tablename));
         }
 
         pagelist.appendChild(input_node);
-        pagelist.appendChild(create_listnode(totlepage, totlepage, 0));
+        pagelist.appendChild(create_listnode(totlepage, totlepage, 0, tablename));
     }
 
     //显示两个省略号
@@ -166,19 +208,19 @@ function init_pagelist(response)
         for (let i = nowpage - 2; i <= nowpage + 2; i++)
         {
             if (i != nowpage)
-                pagelist.appendChild(create_listnode(i, i, 0));
+                pagelist.appendChild(create_listnode(i, i, 0, tablename));
             else
-                pagelist.appendChild(create_listnode(i, i, 1));
+                pagelist.appendChild(create_listnode(i, i, 1, tablename));
         }
 
         pagelist.appendChild(input_node);
-        pagelist.appendChild(totlepage, totlepage, 0);
+        pagelist.appendChild(totlepage, totlepage, 0, tablename);
     }
 
-    pagelist.appendChild(create_listnode("Last page", totlepage, 0));
+    pagelist.appendChild(create_listnode("Last page", totlepage, 0, tablename));
 }
 
-function create_listnode(name, value, isactive)
+function create_listnode(name, value, isactive, tablename)
 {
     var li_node = document.createElement("li");
     if (isactive == false)
@@ -187,7 +229,7 @@ function create_listnode(name, value, isactive)
         li_node.setAttribute("class","page-item active");
     var a_node = document.createElement("a");
     a_node.setAttribute("class","page-link");
-    a_node.setAttribute("href", `javascript: window.location.href("public_phrases.html?pagenum=${value}")`);
+    a_node.setAttribute("href", `javascript: window.location.href("${tablename}.html?pagenum=${value}")`);
     a_node.innerText = name;
     li_node.appendChild(a_node);
 
