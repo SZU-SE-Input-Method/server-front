@@ -4,11 +4,15 @@ function initialization(tablename)
 {
     const querystring = window.location.search;
     const urlparams = new URLSearchParams(querystring);
-    const pagenum = urlparams.get('pagenum');
-    get_pagecontext(pagenum);
+    const pagesize = 1;
+
+    var pagenum = urlparams.get('pagenum');
+    if (pagenum == null)
+        pagenum = 1;
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", `/pharse?page=${pagenum}`, true);
+    xhr.open("GET", `http://1.12.74.230/api/publicphrases/page/${pagenum}/${pagesize}`, true);
+    xhr.setRequestHeader("User-Agent", "Apifox/1.0.0 (https://www.apifox.cn)");
     xhr.send();
 
     xhr.onload = function() {
@@ -24,7 +28,7 @@ function initialization(tablename)
                 private_init_phrasetext(reponse);
 
             //初始化进度栏
-            init_pagelist(response,tablename);
+            init_pagelist(response,tablename,pagenum);
             
         } 
         else
@@ -52,7 +56,7 @@ function get_pagenum(tablename)
 //构造页面内容
 function public_init_phrasetext(response)
 {
-    var res = response.data;
+    var res = response.data.records;
 
     var table = document.getElementById("public_phrases_table");
     var tbody = createElement("tbody");
@@ -65,11 +69,8 @@ function public_init_phrasetext(response)
         id.setAttribute("scope","row");
         id.appendChild(document.createTextNode(res[i]['pid']));
 
-        var title = document.createElement("td");
-        title.appendChild(document.createTextNode(res[i]['title']));
-
-        var text = document.createElement("td");
-        text.appendChild(document.createTextNode(res[i]['text']));
+        var content = document.createElement("td");
+        content.appendChild(document.createTextNode(res[i]['content']));
 
         var time = document.createElement("td");
         time.appendChild(document.createTextNode(res[i]['create_time']));
@@ -81,8 +82,8 @@ function public_init_phrasetext(response)
         a1.setAttribute("href","javascript: renew_phrases(this);");
         var i1 = document.createElement("i");
         i1.setAttribute("class","bx bxs-edit");
-        a1.appendChild(i1);
-        div.appendChild(a1);
+        i1.appendChild(a1);
+        div.appendChild(i1);
         var p = document.createElement("p");
         p.appendChild(document.createTextNode("&nbsp;&nbsp;&nbsp;"));
         div.appendChild(p)
@@ -90,13 +91,12 @@ function public_init_phrasetext(response)
         a2.setAttribute("href","javascript: delete_phrases(" + res[i]['pid'] + ");");
         var i2 = document.createElement("i");
         i2.setAttribute("class","bx bxs-trash");
-        a2.appendChild(i2);
-        div.appendChild(a2);
+        i2.appendChild(a2);
+        div.appendChild(i2);
         operration.appendChild(div);
 
         tr.appendChild(id);
-        tr.appendChild(title);
-        tr.appendChild(text);
+        tr.appendChild(content);
         tr.appendChild(time);
         tr.appendChild(operration);
 
@@ -140,11 +140,10 @@ function private_init_phrasetext(response)
 }
 
 //构造进度栏
-function init_pagelist(response,tablename)
+function init_pagelist(response,tablename,nowpage)
 {
     var pagelist = document.getElementById("pagelsit");
-    var nowpage = response.nowpage;
-    var totlepage = response.totlepage;
+    var totlepage = response.data.pages;
 
     var pagelist = document.getElementById("pagelist");
     var input_node = document.createElement("li");
