@@ -12,7 +12,6 @@ function initialization(tablename)
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", `http://1.12.74.230/api/publicphrases/page/${pagenum}/${pagesize}`, true);
-    xhr.setRequestHeader("User-Agent", "Apifox/1.0.0 (https://www.apifox.cn)");
     xhr.send();
 
     xhr.onload = function() {
@@ -25,7 +24,7 @@ function initialization(tablename)
             if (tablename == "public_phrases")
                 public_init_phrasetext(response);
             else if (tablename == "private_phrases")
-                private_init_phrasetext(reponse);
+                private_init_phrasetext(response);
 
             //初始化进度栏
             init_pagelist(response,tablename,pagenum);
@@ -45,12 +44,12 @@ function get_pagenum(tablename)
         result = window.prompt("请输入正确的数字页码:", "1");
     
     if (tablename == "public_phrases")
-        url = `public_phrases.html?pagenum=${result}`;
+        url = `/public_phrases.html?pagenum=${result}`;
     else if (tablename == "private_phrases")
-        url = `private_phrases.html?pagenum=${result}`;
+        url = `/private_phrases.html?pagenum=${result}`;
 
     if (result !== null)
-        window.location.href = url;
+        location.href = url;
 }
 
 //构造页面内容
@@ -59,7 +58,7 @@ function public_init_phrasetext(response)
     var res = response.data.records;
 
     var table = document.getElementById("public_phrases_table");
-    var tbody = createElement("tbody");
+    var tbody = document.createElement("tbody");
 
     for (let i = 0; i < res.length; i++)
     {
@@ -67,13 +66,13 @@ function public_init_phrasetext(response)
 
         var id = document.createElement("th");
         id.setAttribute("scope","row");
-        id.appendChild(document.createTextNode(res[i]['pid']));
+        id.appendChild(document.createTextNode(res[i]['ppid']));
 
         var content = document.createElement("td");
         content.appendChild(document.createTextNode(res[i]['content']));
 
         var time = document.createElement("td");
-        time.appendChild(document.createTextNode(res[i]['create_time']));
+        time.appendChild(document.createTextNode(res[i]['createTime']));
 
         var operration = document.createElement("td");
         var div = document.createElement("div");
@@ -82,17 +81,17 @@ function public_init_phrasetext(response)
         a1.setAttribute("href","javascript: renew_phrases(this);");
         var i1 = document.createElement("i");
         i1.setAttribute("class","bx bxs-edit");
-        i1.appendChild(a1);
-        div.appendChild(i1);
+        a1.appendChild(i1);
+        div.appendChild(a1);
         var p = document.createElement("p");
-        p.appendChild(document.createTextNode("&nbsp;&nbsp;&nbsp;"));
+        p.innerHTML = "&nbsp;&nbsp;&nbsp;";
         div.appendChild(p)
         var a2 = document.createElement("a");
         a2.setAttribute("href","javascript: delete_phrases(" + res[i]['pid'] + ");");
         var i2 = document.createElement("i");
         i2.setAttribute("class","bx bxs-trash");
-        i2.appendChild(a2);
-        div.appendChild(i2);
+        a2.appendChild(i2);
+        div.appendChild(a2);
         operration.appendChild(div);
 
         tr.appendChild(id);
@@ -143,18 +142,28 @@ function private_init_phrasetext(response)
 function init_pagelist(response,tablename,nowpage)
 {
     var pagelist = document.getElementById("pagelsit");
-    var totlepage = response.data.pages;
+    var totlepage = parseInt(response.data.pages);
+    nowpage = parseInt(nowpage);
 
     var pagelist = document.getElementById("pagelist");
+
     var input_node = document.createElement("li");
     input_node.setAttribute("class","page-item");
     var a_input = document.createElement("a");
     a_input.setAttribute("class","page-link");
-    a_input.setAttribute("href", `javascript: get_pagenum(${tablename});`);
+    a_input.setAttribute("href", `javascript: get_pagenum("${tablename}");`);
     a_input.innerText = "...";
-    input_node.appendChild(a_node);
+    input_node.appendChild(a_input);
 
-    pagelist.appendChild(create_listnode("First page", 1, 0, tablename));
+    var input_node_co = document.createElement("li");
+    input_node_co.setAttribute("class","page-item");
+    var a_input_co = document.createElement("a");
+    a_input_co.setAttribute("class","page-link");
+    a_input_co.setAttribute("href", `javascript: get_pagenum("${tablename}");`);
+    a_input_co.innerText = "...";
+    input_node_co.appendChild(a_input_co);
+
+    pagelist.appendChild(create_listnode("First", 1, 0, tablename));
 
     //两个省略号都不显示
     if (totlepage <= 7)
@@ -169,7 +178,7 @@ function init_pagelist(response,tablename,nowpage)
     }
 
     //显示左省略号
-    else if (totlepage > 7 && nowpage > 4)
+    else if (totlepage > 7 && nowpage > 4 && nowpage >= totlepage - 3)
     {
         pagelist.appendChild(create_listnode(1, 1, 0, tablename));
         pagelist.appendChild(input_node);
@@ -186,7 +195,7 @@ function init_pagelist(response,tablename,nowpage)
     //显示右省略号
     else if (totlepage > 7 && nowpage <= 4)
     {
-        for (let i = 1; i <= nowpage + 2; i++)
+        for (var i = 1; i <= nowpage + 2; i++)
         {
             if (i != nowpage)
                 pagelist.appendChild(create_listnode(i, i, 0, tablename));
@@ -201,8 +210,8 @@ function init_pagelist(response,tablename,nowpage)
     //显示两个省略号
     else if (totlepage > 7)
     {
-        pagelist.appendChild(1, 1, 0);
-        pagelist.appendChild(input_node);
+        pagelist.appendChild(create_listnode(1, 1, 0, tablename));
+        pagelist.appendChild(input_node_co);
 
         for (let i = nowpage - 2; i <= nowpage + 2; i++)
         {
@@ -213,10 +222,10 @@ function init_pagelist(response,tablename,nowpage)
         }
 
         pagelist.appendChild(input_node);
-        pagelist.appendChild(totlepage, totlepage, 0, tablename);
+        pagelist.appendChild(create_listnode(totlepage, totlepage, 0, tablename));
     }
 
-    pagelist.appendChild(create_listnode("Last page", totlepage, 0, tablename));
+    pagelist.appendChild(create_listnode("Last", totlepage, 0, tablename));
 }
 
 function create_listnode(name, value, isactive, tablename)
@@ -228,7 +237,7 @@ function create_listnode(name, value, isactive, tablename)
         li_node.setAttribute("class","page-item active");
     var a_node = document.createElement("a");
     a_node.setAttribute("class","page-link");
-    a_node.setAttribute("href", `javascript: window.location.href("${tablename}.html?pagenum=${value}")`);
+    a_node.setAttribute("href", `${tablename}.html?pagenum=${value}")`);
     a_node.innerText = name;
     li_node.appendChild(a_node);
 
