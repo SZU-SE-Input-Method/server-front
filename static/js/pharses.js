@@ -26,12 +26,12 @@ function initialization(tablename)
 
             //初始化短语内容
             if (tablename == "public_phrases")
-                public_init_phrasetext(response);
+                public_init_phrasetext(response.data.records);
             else if (tablename == "private_phrases")
-                private_init_phrasetext(response);
+                private_init_phrasetext(response.data.records);
 
             //初始化进度栏
-            init_pagelist(response,tablename,pagenum);
+            init_pagelist(tablename,pagenum,response.data.pages);
             
         } 
         else
@@ -57,11 +57,11 @@ function get_pagenum(tablename)
 }
 
 //构造页面内容
-function public_init_phrasetext(response)
+function public_init_phrasetext(res)
 {
-    var res = response.data.records;
     var table = document.getElementById("public_phrases_table");
-    var tbody = document.createElement("tbody");
+    var tbody = document.querySelector("tbody");
+    tbody.innerHTML = "";
 
     for (let i = 0; i < res.length; i++)
     {
@@ -104,14 +104,13 @@ function public_init_phrasetext(response)
 
         tbody.appendChild(tr);
     }
-    table.appendChild(tbody);
 }
 
-function private_init_phrasetext(response)
+function private_init_phrasetext(res)
 {
-    var res = response.data.records;
     var table = document.getElementById("private_phrases_table");
-    var tbody = document.createElement("tbody");
+    var tbody = table.querySelector("tbody");
+    tbody.innerHTML = "";
 
     for (let i = 0; i < res.length; i++)
     {
@@ -137,14 +136,16 @@ function private_init_phrasetext(response)
 
         tbody.appendChild(tr);
     }
-    table.appendChild(tbody);
 }
 
 //构造进度栏
-function init_pagelist(response,tablename,nowpage)
+function init_pagelist(tablename,nowpage,totlepage)
 {
-    var totlepage = parseInt(response.data.pages);
+    totlepage = parseInt(totlepage);
     nowpage = parseInt(nowpage);
+
+    if (totlepage == 1)
+        return;
 
     var pagelist = document.getElementById("pagelist");
 
@@ -377,86 +378,52 @@ function public_handleKeyPress(event)
     if (event.keyCode === 13) 
     { 
         var inputContent = document.getElementById("public_search").value;
+        var ppid = parseInt(inputContent);
+        var url = "";
+
         if (/^\d+$/.test(inputContent))
+            url = `http://1.12.74.230/api/publicphrases/${ppid}`;
+        else 
+            url = `http://1.12.74.230/api/publicphrases/page/1/5?content=${inputContent}`;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.onload = function() 
         {
-            var ppid = parseInt(inputContent);
-            var xhr = new XMLHttpRequest();
-            var url = `http://1.12.74.230/api/publicphrases/${ppid}`;
-            xhr.open("GET", url, true);
+            if (xhr.status === 200) 
+            {
+                var response = JSON.parse(xhr.response);
+                console.log(response);
 
-            xhr.onload = function() {
-                if (xhr.status === 200) 
+
+                //没有获取到返回数据
+                if (response.data == null || (response.data.records != null && response.data.records.length == 0))
                 {
-                    var response = JSON.parse(xhr.response);
-                    console.log(response);
-        
-                    //获取到返回短语
-                    if (response.data != null)
-                    {
-                        var res = response.data;
-                        var table = document.getElementById("public_phrases_table");
-                        var pagelist = document.getElementById("pagelist");
+                    alert("未查询到相关短语,请重新搜索");
+                    location.reload();
+                }
     
-                        pagelist.innerHTML = "";
-                        tbody = table.querySelector("tbody");
-                        tbody.innerHTML = "";
-    
-                        var tr = document.createElement("tr");
-    
-                        var id = document.createElement("th");
-                        id.setAttribute("scope","row");
-                        id.appendChild(document.createTextNode(res['ppid']));
-    
-                        var content = document.createElement("td");
-                        content.appendChild(document.createTextNode(res['content']));
-    
-                        var time = document.createElement("td");
-                        time.appendChild(document.createTextNode(res['createTime']));
-    
-                        var operration = document.createElement("td");
-                        var div = document.createElement("div");
-                        div.setAttribute("class","d-flex order-actions")
-                        var a1 = document.createElement("a");
-                        a1.setAttribute("href","javascript:;");
-                        var i1 = document.createElement("i");
-                        i1.setAttribute("class","bx bxs-edit");
-                        a1.appendChild(i1);
-                        div.appendChild(a1);
-                        var p = document.createElement("p");
-                        p.innerHTML = "&nbsp;&nbsp;&nbsp;";
-                        div.appendChild(p)
-                        var a2 = document.createElement("a");
-                        a2.setAttribute("href","javascript: delete_phrases('" + res['ppid'] + "');");
-                        var i2 = document.createElement("i");
-                        i2.setAttribute("class","bx bxs-trash");
-                        a2.appendChild(i2);
-                        div.appendChild(a2);
-                        operration.appendChild(div);
-    
-                        tr.appendChild(id);
-                        tr.appendChild(content);
-                        tr.appendChild(time);
-                        tr.appendChild(operration);
-    
-                        tbody.appendChild(tr);
-                    }
-    
-                    //获取特定短语失败
-                    else if (response.data == null)
-                    {
-                        alert("未找到该短语,请重新查询");
-                        location.reload();
-                    }
-                } 
-                else
-                    console.error(xhr.statusText);
-            }
-            
-            xhr.send();
-        }
-        else
-            alert("请输入数字pid");
+                //获取单个返回数据
+                else if (response.data != null && response.data.records == null)
+                {
+                    response = Array.from([response.data]);
+                    public_init_phrasetext(response);
+                    document.getElementById("pagelist").innerHTML = "";
+                }
 
+                //获取到多个返回数据
+                else if (response.data != null)
+                {
+                    public_init_phrasetext(response.data.records);
+                    document.getElementById("pagelist").innerHTML = "";
+                }
+                else
+                    console.log("into else");
+            } 
+            else
+                console.error(xhr.statusText);
+        }
+        xhr.send();
     }
 }
 
@@ -466,67 +433,50 @@ function private_handleKeyPress(event)
     if (event.keyCode === 13) 
     { 
         var inputContent = document.getElementById("private_search").value;
-        if (/^\d+$/.test(inputContent))
-        {
-            var ppid = parseInt(inputContent);
-            var xhr = new XMLHttpRequest();
-            var url = `http://1.12.74.230/api/phrase/private/${ppid}`;
-            xhr.open("GET", url, true);
+        var ppid = parseInt(inputContent);
+        var url = "";
 
-            xhr.onload = function() {
-                if (xhr.status === 200) 
+        if (/^\d+$/.test(inputContent))
+            url = `http://1.12.74.230/api/phrase/private/${ppid}`;
+        else 
+            url = `http://1.12.74.230/api/phrase/private/page/1/5?content=${inputContent}`;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.onload = function() 
+        {
+            if (xhr.status === 200) 
+            {
+                var response = JSON.parse(xhr.response);
+                console.log(response);
+
+                //没有获取到返回数据
+                if (response.data == null || (response.data.records != null && response.data.records.length == 0))
                 {
-                    var response = JSON.parse(xhr.response);
-                    console.log(response);
-        
-                    //获取到返回短语
-                    if (response.data != null)
-                    {
-                        var res = response.data;
-                        var table = document.getElementById("private_phrases_table");
-                        var pagelist = document.getElementById("pagelist");
+                    alert("未查询到相关短语,请重新搜索");
+                    location.reload();
+                }
     
-                        pagelist.innerHTML = "";
-                        tbody = table.querySelector("tbody");
-                        tbody.innerHTML = "";
-    
-                        var tr = document.createElement("tr");
-    
-                        var pid = document.createElement("th");
-                        pid.setAttribute("scope","row");
-                        pid.appendChild(document.createTextNode(res['pid']));
-    
-                        var content = document.createElement("td");
-                        content.appendChild(document.createTextNode(res['content']));
-    
-                        var uid = document.createElement("td");
-                        uid.appendChild(document.createTextNode(res['uid']));
-    
-                        var time = document.createElement("td");
-                        time.appendChild(document.createTextNode(res['createTime']));
-    
-                        tr.appendChild(pid);
-                        tr.appendChild(content);
-                        tr.appendChild(uid);
-                        tr.appendChild(time);
-    
-                        tbody.appendChild(tr);
-                    }
-    
-                    //获取特定短语失败
-                    else if (response.data == null)
-                    {
-                        alert("未找到该短语,请重新查询");
-                        location.reload();
-                    }
-                } 
+                //获取单个返回数据
+                else if (response.data != null && response.data.records == null)
+                {
+                    response = Array.from([response.data]);
+                    private_init_phrasetext(response);
+                    document.getElementById("pagelist").innerHTML = "";
+                }
+
+                //获取到多个返回数据
+                else if (response.data != null)
+                {
+                    private_init_phrasetext(response.data.records);
+                    document.getElementById("pagelist").innerHTML = "";
+                }
                 else
-                    console.error(xhr.statusText);
-            }
-            
-            xhr.send();
+                    console.log("into else");
+            } 
+            else
+                console.error(xhr.statusText);
         }
-        else
-            alert("请输入数字pid");
+        xhr.send();
     }
 }
