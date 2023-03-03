@@ -11,7 +11,11 @@ function initialization(tablename)
         pagenum = 1;
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", `http://1.12.74.230/api/publicphrases/page/${pagenum}/${pagesize}`, true);
+    if (tablename == "public_phrases")
+        url = `http://1.12.74.230/api/publicphrases/page/${pagenum}/${pagesize}`;
+    else if (tablename == "private_phrases");
+        url = `http://1.12.74.230/api/phrase/private/page/${pagenum}/${pagesize}`
+    xhr.open("GET", url, true);
     xhr.send();
 
     xhr.onload = function() {
@@ -56,7 +60,6 @@ function get_pagenum(tablename)
 function public_init_phrasetext(response)
 {
     var res = response.data.records;
-
     var table = document.getElementById("public_phrases_table");
     var tbody = document.createElement("tbody");
 
@@ -106,31 +109,30 @@ function public_init_phrasetext(response)
 
 function private_init_phrasetext(response)
 {
-    var res = response.data;
-
+    var res = response.data.records;
     var table = document.getElementById("private_phrases_table");
-    var tbody = createElement("tbody");
+    var tbody = document.createElement("tbody");
 
     for (let i = 0; i < res.length; i++)
     {
         var tr = document.createElement("tr");
 
-        var id = document.createElement("th");
-        id.setAttribute("scope","row");
-        id.appendChild(document.createTextNode(res[i]['pid']));
+        var pid = document.createElement("th");
+        pid.setAttribute("scope","row");
+        pid.appendChild(document.createTextNode(res[i]['pid']));
 
-        var title = document.createElement("td");
-        title.appendChild(document.createTextNode(res[i]['title']));
+        var content = document.createElement("td");
+        content.appendChild(document.createTextNode(res[i]['content']));
 
-        var text = document.createElement("td");
-        text.appendChild(document.createTextNode(res[i]['text']));
+        var uid = document.createElement("td");
+        uid.appendChild(document.createTextNode(res[i]['uid']));
 
         var time = document.createElement("td");
-        time.appendChild(document.createTextNode(res[i]['create_time']));
+        time.appendChild(document.createTextNode(res[i]['createTime']));
 
-        tr.appendChild(id);
-        tr.appendChild(title);
-        tr.appendChild(text);
+        tr.appendChild(pid);
+        tr.appendChild(content);
+        tr.appendChild(uid);
         tr.appendChild(time);
 
         tbody.appendChild(tr);
