@@ -4,7 +4,7 @@ function initialization(tablename)
 {
     const querystring = window.location.search;
     const urlparams = new URLSearchParams(querystring);
-    const pagesize = 3;
+    const pagesize = 5;
 
     var pagenum = urlparams.get('pagenum');
     if (pagenum == null)
@@ -87,7 +87,7 @@ function public_init_phrasetext(response)
         p.innerHTML = "&nbsp;&nbsp;&nbsp;";
         div.appendChild(p)
         var a2 = document.createElement("a");
-        a2.setAttribute("href","javascript: delete_phrases(" + res[i]['pid'] + ");");
+        a2.setAttribute("href","javascript: delete_phrases('" + res[i]['ppid'] + "');");
         var i2 = document.createElement("i");
         i2.setAttribute("class","bx bxs-trash");
         a2.appendChild(i2);
@@ -301,22 +301,15 @@ function upload(text)
 function delete_phrases(pid)
 {
     var xhr = new XMLHttpRequest();
-    var url = `/phrase/${pid}`;
+    var url = `http://1.12.74.230/api/publicphrases/${pid}`;
 
-    xhr.onreadystatechange = function() 
-    {
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) 
-        {
-            var response = JSON.parse(xhr.responseText);
-            alert(response.message);
+    xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+            var response = JSON.parse(xhr.response);
+            alert(response.msg);
             location.reload();
         }
-        else
-        {
-            alert("删除失败!");
-            location.reload();
-        }
-    };
+    });
 
     xhr.open("DELETE", url);
     xhr.send();
