@@ -4,7 +4,7 @@ function initialization(tablename)
 {
     const querystring = window.location.search;
     const urlparams = new URLSearchParams(querystring);
-    const pagesize = 1;
+    const pagesize = 3;
 
     var pagenum = urlparams.get('pagenum');
     if (pagenum == null)
@@ -78,7 +78,7 @@ function public_init_phrasetext(response)
         var div = document.createElement("div");
         div.setAttribute("class","d-flex order-actions")
         var a1 = document.createElement("a");
-        a1.setAttribute("href","javascript: renew_phrases(this);");
+        a1.setAttribute("href","javascript:;");
         var i1 = document.createElement("i");
         i1.setAttribute("class","bx bxs-edit");
         a1.appendChild(i1);
@@ -237,7 +237,7 @@ function create_listnode(name, value, isactive, tablename)
         li_node.setAttribute("class","page-item active");
     var a_node = document.createElement("a");
     a_node.setAttribute("class","page-link");
-    a_node.setAttribute("href", `${tablename}.html?pagenum=${value}")`);
+    a_node.setAttribute("href", `${tablename}.html?pagenum=${value}`);
     a_node.innerText = name;
     li_node.appendChild(a_node);
 
@@ -251,20 +251,13 @@ function addrow()
     {
         var table = document.getElementById("add_phrases_table");
         var newrow = table.insertRow();
-        var cell1 = newrow.insertCell();
-        var cell2 = newrow.insertCell();
+        var cell = newrow.insertCell();
 
-        var newinput1 = document.createElement("input");
-        newinput1.type = "text";
-        newinput1.placeholder = "标题";
-        newinput1.setAttribute("class","form-control");
-        cell1.appendChild(newinput1);
-
-        var newinput2 = document.createElement("input");
-        newinput2.type = "text";
-        newinput2.placeholder = "内容";
-        newinput2.setAttribute("class","form-control");
-        cell2.appendChild(newinput2);
+        var newinput = document.createElement("input");
+        newinput.type = "text";
+        newinput.placeholder = "短语内容";
+        newinput.setAttribute("class","form-control");
+        cell.appendChild(newinput);
     }
 }
 
@@ -279,11 +272,9 @@ function get_tablevalue()
         var inputs = rows[i].getElementsByTagName("input");
         for (var j = 0; j < inputs.length / inputs.length; j++) 
         {
-            var title = inputs[0].value;
-            var text = inputs[1].value;
-            
-            if (title != null && text != null)
-                upload(title,text);
+            var text = inputs[0].value;
+            if (text != null && text != "")
+                upload(text);
         }
     }
 
@@ -291,14 +282,19 @@ function get_tablevalue()
     window.history.back();
 }
 
-function upload(title,text)
+function upload(text)
 {
-    var xhr = new XMLHttpRequest();
-
-    var url = "/phrase";
-    var params = `title=${title}&text=${text}`;
-    xhr.open("POST", url, true);
-    xhr.send(params);
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://1.12.74.230/api/publicphrases");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+            console.log(this.responseText);
+        }
+    });
+    let data = { "content": text };
+    let jsonData = JSON.stringify(data);
+    xhr.send(jsonData);
 }
 
 //删除短语
@@ -327,9 +323,6 @@ function delete_phrases(pid)
 }
 
 //修改短语
-const table = document.getElementById('public_phrases_table');
-table.addEventListener('click', handleTableClick);
-
 function handleTableClick(event) 
 {
     const target = event.target;
@@ -339,15 +332,12 @@ function handleTableClick(event)
         const row = target.parentNode.parentNode.parentNode;
         const cells = row.querySelectorAll('td');
         const cell1 = cells[0];
-        const cell2 = cells[1];
-        const cell3 = cells[3];
+        const cell2 = cells[2];
 
         var text1 = cell1.innerHTML;
-        var text2 = cell2.innerHTML;
         
         cell1.innerHTML = `<input class="form-control" type="text" value=${text1}>`;
-        cell2.innerHTML = `<input class="form-control" type="text" value=${text2}>`;
-        cell3.innerHTML = '<div class="d-flex order-actions"><button type="button" class="btn btn-info px-3 radius-30" onclick="submitchange(this)">保存</button><p>&nbsp;&nbsp;&nbsp;</p><button type="button" class="btn btn-secondary px-3 radius-30" onclick="cancel(this,`' + text1 + '`,`' + text2 + '`)">取消</button></div>';
+        cell2.innerHTML = '<div class="d-flex order-actions"><button type="button" class="btn btn-info px-3 radius-30" onclick="submitchange(this)">保存</button><p>&nbsp;&nbsp;&nbsp;</p><button type="button" class="btn btn-secondary px-3 radius-30" onclick="cancel(this,`' + text1 + ')">取消</button></div>';
     }
 }
 
@@ -370,15 +360,14 @@ function submitchange(button)
     const row = button.parentNode.parentNode.parentNode;
     const pid = row.querySelectorAll('th')[0];
     const cells = row.querySelectorAll('td');
-    const cell1 = cells[0];
-    const cell2 = cells[1];
-    const input1 = cell1.querySelectorAll("input")[0];
-    const input2 = cell2.querySelectorAll("input")[0];
+    const cell = cells[0];
+    const input = cell.querySelectorAll("input")[0];
 
-    xhr.open('PUT', '/phrase');
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', 'http://1.12.74.230/api/publicphrases');
     xhr.onreadystatechange = function() 
     {
-        if (xhr.readyState === 4) 
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) 
         {
             var response = JSON.parse(xhr.responseText);
             alert(response.message);
@@ -392,10 +381,10 @@ function submitchange(button)
     };
     const data = 
     {
-        pid: pid.innerHTML,
-        title: input1.value,
-        age: input2.value
+        ppid: pid.innerHTML,
+        content: input.value
     };
+    console.log(data);
     const requestBody = JSON.stringify(data);
     xhr.send(requestBody);
 }
