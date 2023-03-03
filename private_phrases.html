@@ -149,35 +149,23 @@
                 <hr>
                 <div class="card">
                     <div class="card-body">
+						<div class="d-lg-flex align-items-center mb-4 gap-3">
+							<div class="position-relative">
+								<input type="text" class="form-control ps-5 radius-30" placeholder="搜索短语(仅限ID)" id="private_search" onkeypress="private_handleKeyPress(event)"> 
+								<span class="position-absolute top-50 product-show translate-middle-y">
+									<i class="bx bx-search"></i>
+								</span>
+							</div>
+						</div>
                         <table class="table mb-0 table-hover" id="private_phrases_table">
-                            <thead>
+							<thead>
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Title</th>
+                                    <th scope="col">pid</th>
                                     <th scope="col">Text</th>
-                                    <th scope="col">Time</th>
+                                    <th scope="col">uid</th>
+									<th scope="row">createTime</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>虹咲</td>
-                                    <td>虹之咲学园偶像同好会</td>
-                                    <td>2023/2/28 17:00</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>虹咲</td>
-                                    <td>虹之咲学园偶像同好会</td>
-                                    <td>2023/2/28 17:00</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>虹咲</td>
-                                    <td>虹之咲学园偶像同好会</td>
-                                    <td>2023/2/28 17:00</td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -186,12 +174,6 @@
                 <!--start 进度栏-->
 				<nav aria-label="Page navigation example">
 					<ul class="pagination round-pagination" id="pagelist" style="width: 30%; margin: 0 auto;">
-						<li class="page-item"><a class="page-link" href="javascript:;">Previous</a></li>
-						<li class="page-item active"><a class="page-link" href="javascript:;javascript:;" id="first_page">1</a></li>
-						<li class="page-item"><a class="page-link" href="javascript:;">2</a></li>
-						<li class="page-item"><a class="page-link" href="javascript: get_pagenum();">...</a></li>
-						<li class="page-item"><a class="page-link" href="javascript:;" id="last_page">3</a></li>
-						<li class="page-item"><a class="page-link" href="javascript:;">Next</a></li>
 					</ul>
 				</nav>
 				<!--end 进度栏-->
@@ -224,6 +206,10 @@
 
 	<!--self js-->
 	<!--TODO import your js here-->
+	<script src="static/js/pharses.js"></script>
+	<script>
+		initialization("private_phrases");
+	</script>
 
 </body>
 
