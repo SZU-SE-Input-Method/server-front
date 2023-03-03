@@ -337,54 +337,42 @@ function handleTableClick(event)
         var text1 = cell1.innerHTML;
         
         cell1.innerHTML = `<input class="form-control" type="text" value=${text1}>`;
-        cell2.innerHTML = '<div class="d-flex order-actions"><button type="button" class="btn btn-info px-3 radius-30" onclick="submitchange(this)">保存</button><p>&nbsp;&nbsp;&nbsp;</p><button type="button" class="btn btn-secondary px-3 radius-30" onclick="cancel(this,`' + text1 + ')">取消</button></div>';
+        cell2.innerHTML = '<div class="d-flex order-actions"><button type="button" class="btn btn-info px-3 radius-30" onclick="submitchange(this)">保存</button><p>&nbsp;&nbsp;&nbsp;</p><button type="button" class="btn btn-secondary px-3 radius-30" onclick="cancel(this,`' + text1 + '`)">取消</button></div>';
     }
 }
 
-function cancel(button,title,text)
+function cancel(button,text)
 {
     const row = button.parentNode.parentNode.parentNode;
     const pid = row.querySelectorAll('th')[0];
     const cells = row.querySelectorAll('td');
     const cell1 = cells[0];
-    const cell2 = cells[1];
-    const cell3 = cells[3];
+    const cell2 = cells[2];
 
-    cell1.innerHTML = title;
-    cell2.innerHTML = text;
-    cell3.innerHTML = '<div class="d-flex order-actions"><a href="#"><i class="bx bxs-edit"></i></a><p>&nbsp;&nbsp;&nbsp;</p><a href="javascript: delete_phrases(' + pid.innerHTML + ');"><i class="bx bxs-trash"></i></a></div>';
+    cell1.innerHTML = text;
+    cell2.innerHTML = '<div class="d-flex order-actions"><a href="#"><i class="bx bxs-edit"></i></a><p>&nbsp;&nbsp;&nbsp;</p><a href="javascript: delete_phrases(' + pid.innerHTML + ');"><i class="bx bxs-trash"></i></a></div>';
 }
 
 function submitchange(button)
 {
     const row = button.parentNode.parentNode.parentNode;
-    const pid = row.querySelectorAll('th')[0];
+    const ppid = row.querySelectorAll('th')[0];
     const cells = row.querySelectorAll('td');
     const cell = cells[0];
-    const input = cell.querySelectorAll("input")[0];
+    const content = cell.querySelectorAll("input")[0];
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('PUT', 'http://1.12.74.230/api/publicphrases');
-    xhr.onreadystatechange = function() 
-    {
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) 
-        {
-            var response = JSON.parse(xhr.responseText);
-            alert(response.message);
+    let xhr = new XMLHttpRequest();
+    xhr.open("PUT", "http://1.12.74.230/api/publicphrases");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+            var response = JSON.parse(xhr.response);
+            alert(response.msg);
             location.reload();
         }
-        else
-        {
-            console.log("修改失败!");
-            location.reload();
-        }
-    };
-    const data = 
-    {
-        ppid: pid.innerHTML,
-        content: input.value
-    };
-    console.log(data);
-    const requestBody = JSON.stringify(data);
-    xhr.send(requestBody);
+    });
+    let data = { "ppid": ppid.innerText, "content" : content.value};
+    let jsonData = JSON.stringify(data);
+    console.log(jsonData)
+    xhr.send(jsonData);
 }
