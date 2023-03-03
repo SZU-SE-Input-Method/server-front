@@ -1,5 +1,6 @@
 //author: wch
 
+//页面初始化
 function initialization(tablename)
 {
     const querystring = window.location.search;
@@ -39,7 +40,7 @@ function initialization(tablename)
     }
 }
 
-//获取用户输入的进度栏页数
+//获取用户输入的分页栏页数
 function get_pagenum(tablename)
 {
     var url = "";
@@ -56,7 +57,7 @@ function get_pagenum(tablename)
         location.href = url;
 }
 
-//构造页面内容
+//构造公有短语表格内容
 function public_init_phrasetext(res)
 {
     var table = document.getElementById("public_phrases_table");
@@ -106,6 +107,7 @@ function public_init_phrasetext(res)
     }
 }
 
+//构造私有短语表格内容
 function private_init_phrasetext(res)
 {
     var table = document.getElementById("private_phrases_table");
@@ -138,7 +140,7 @@ function private_init_phrasetext(res)
     }
 }
 
-//构造进度栏
+//构造分页栏
 function init_pagelist(tablename,nowpage,totlepage)
 {
     totlepage = parseInt(totlepage);
@@ -230,6 +232,7 @@ function init_pagelist(tablename,nowpage,totlepage)
     pagelist.appendChild(create_listnode("Last", totlepage, 0, tablename));
 }
 
+//构造分页栏的一个节点
 function create_listnode(name, value, isactive, tablename)
 {
     var li_node = document.createElement("li");
@@ -336,6 +339,7 @@ function handleTableClick(event)
     }
 }
 
+//取消修改短语
 function cancel(button,text)
 {
     const row = button.parentNode.parentNode.parentNode;
@@ -348,6 +352,7 @@ function cancel(button,text)
     cell2.innerHTML = '<div class="d-flex order-actions"><a href="#"><i class="bx bxs-edit"></i></a><p>&nbsp;&nbsp;&nbsp;</p><a href="javascript: delete_phrases(' + pid.innerHTML + ');"><i class="bx bxs-trash"></i></a></div>';
 }
 
+//上传修改的短语
 function submitchange(button)
 {
     const row = button.parentNode.parentNode.parentNode;
