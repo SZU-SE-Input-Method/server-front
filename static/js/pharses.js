@@ -383,77 +383,150 @@ function public_handleKeyPress(event)
             var xhr = new XMLHttpRequest();
             var url = `http://1.12.74.230/api/publicphrases/${ppid}`;
             xhr.open("GET", url, true);
+
+            xhr.onload = function() {
+                if (xhr.status === 200) 
+                {
+                    var response = JSON.parse(xhr.response);
+                    console.log(response);
+        
+                    //获取到返回短语
+                    if (response.data != null)
+                    {
+                        var res = response.data;
+                        var table = document.getElementById("public_phrases_table");
+                        var pagelist = document.getElementById("pagelist");
+    
+                        pagelist.innerHTML = "";
+                        tbody = table.querySelector("tbody");
+                        tbody.innerHTML = "";
+    
+                        var tr = document.createElement("tr");
+    
+                        var id = document.createElement("th");
+                        id.setAttribute("scope","row");
+                        id.appendChild(document.createTextNode(res['ppid']));
+    
+                        var content = document.createElement("td");
+                        content.appendChild(document.createTextNode(res['content']));
+    
+                        var time = document.createElement("td");
+                        time.appendChild(document.createTextNode(res['createTime']));
+    
+                        var operration = document.createElement("td");
+                        var div = document.createElement("div");
+                        div.setAttribute("class","d-flex order-actions")
+                        var a1 = document.createElement("a");
+                        a1.setAttribute("href","javascript:;");
+                        var i1 = document.createElement("i");
+                        i1.setAttribute("class","bx bxs-edit");
+                        a1.appendChild(i1);
+                        div.appendChild(a1);
+                        var p = document.createElement("p");
+                        p.innerHTML = "&nbsp;&nbsp;&nbsp;";
+                        div.appendChild(p)
+                        var a2 = document.createElement("a");
+                        a2.setAttribute("href","javascript: delete_phrases('" + res['ppid'] + "');");
+                        var i2 = document.createElement("i");
+                        i2.setAttribute("class","bx bxs-trash");
+                        a2.appendChild(i2);
+                        div.appendChild(a2);
+                        operration.appendChild(div);
+    
+                        tr.appendChild(id);
+                        tr.appendChild(content);
+                        tr.appendChild(time);
+                        tr.appendChild(operration);
+    
+                        tbody.appendChild(tr);
+                    }
+    
+                    //获取特定短语失败
+                    else if (response.data == null)
+                    {
+                        alert("未找到该短语,请重新查询");
+                        location.reload();
+                    }
+                } 
+                else
+                    console.error(xhr.statusText);
+            }
+            
             xhr.send();
         }
         else
             alert("请输入数字pid");
 
-        xhr.onload = function() {
-            if (xhr.status === 200) 
-            {
-                var response = JSON.parse(xhr.response);
-                console.log(response);
+    }
+}
+
+//私有短语的搜索
+function private_handleKeyPress(event)
+{
+    if (event.keyCode === 13) 
+    { 
+        var inputContent = document.getElementById("private_search").value;
+        if (/^\d+$/.test(inputContent))
+        {
+            var ppid = parseInt(inputContent);
+            var xhr = new XMLHttpRequest();
+            var url = `http://1.12.74.230/api/phrase/private/${ppid}`;
+            xhr.open("GET", url, true);
+
+            xhr.onload = function() {
+                if (xhr.status === 200) 
+                {
+                    var response = JSON.parse(xhr.response);
+                    console.log(response);
+        
+                    //获取到返回短语
+                    if (response.data != null)
+                    {
+                        var res = response.data;
+                        var table = document.getElementById("private_phrases_table");
+                        var pagelist = document.getElementById("pagelist");
     
-                //获取到返回短语
-                if (response.data != null)
-                {
-                    var res = response.data;
-                    var table = document.getElementById("public_phrases_table");
-                    var pagelist = document.getElementById("pagelist");
-
-                    pagelist.innerHTML = "";
-                    tbody = table.querySelector("tbody");
-                    tbody.innerHTML = "";
-
-                    var tr = document.createElement("tr");
-
-                    var id = document.createElement("th");
-                    id.setAttribute("scope","row");
-                    id.appendChild(document.createTextNode(res['ppid']));
-
-                    var content = document.createElement("td");
-                    content.appendChild(document.createTextNode(res['content']));
-
-                    var time = document.createElement("td");
-                    time.appendChild(document.createTextNode(res['createTime']));
-
-                    var operration = document.createElement("td");
-                    var div = document.createElement("div");
-                    div.setAttribute("class","d-flex order-actions")
-                    var a1 = document.createElement("a");
-                    a1.setAttribute("href","javascript:;");
-                    var i1 = document.createElement("i");
-                    i1.setAttribute("class","bx bxs-edit");
-                    a1.appendChild(i1);
-                    div.appendChild(a1);
-                    var p = document.createElement("p");
-                    p.innerHTML = "&nbsp;&nbsp;&nbsp;";
-                    div.appendChild(p)
-                    var a2 = document.createElement("a");
-                    a2.setAttribute("href","javascript: delete_phrases('" + res['ppid'] + "');");
-                    var i2 = document.createElement("i");
-                    i2.setAttribute("class","bx bxs-trash");
-                    a2.appendChild(i2);
-                    div.appendChild(a2);
-                    operration.appendChild(div);
-
-                    tr.appendChild(id);
-                    tr.appendChild(content);
-                    tr.appendChild(time);
-                    tr.appendChild(operration);
-
-                    tbody.appendChild(tr);
-                }
-
-                //获取特定短语失败
-                else if (response.data == null)
-                {
-                    alert("未找到该短语,请重新查询");
-                    location.reload();
-                }
-            } 
-            else
-                console.error(xhr.statusText);
+                        pagelist.innerHTML = "";
+                        tbody = table.querySelector("tbody");
+                        tbody.innerHTML = "";
+    
+                        var tr = document.createElement("tr");
+    
+                        var pid = document.createElement("th");
+                        pid.setAttribute("scope","row");
+                        pid.appendChild(document.createTextNode(res['pid']));
+    
+                        var content = document.createElement("td");
+                        content.appendChild(document.createTextNode(res['content']));
+    
+                        var uid = document.createElement("td");
+                        uid.appendChild(document.createTextNode(res['uid']));
+    
+                        var time = document.createElement("td");
+                        time.appendChild(document.createTextNode(res['createTime']));
+    
+                        tr.appendChild(pid);
+                        tr.appendChild(content);
+                        tr.appendChild(uid);
+                        tr.appendChild(time);
+    
+                        tbody.appendChild(tr);
+                    }
+    
+                    //获取特定短语失败
+                    else if (response.data == null)
+                    {
+                        alert("未找到该短语,请重新查询");
+                        location.reload();
+                    }
+                } 
+                else
+                    console.error(xhr.statusText);
+            }
+            
+            xhr.send();
         }
+        else
+            alert("请输入数字pid");
     }
 }
