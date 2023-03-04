@@ -69,7 +69,7 @@ function init_knowledge(res) {
             '<td>\n' +
             '<div class="d-flex order-actions">\n' +
             '<p>&nbsp;&nbsp;&nbsp;</p>\n' +
-            '<a href="javascript: delete_knowledge(' + res[i]['kid'] + ');"><i class="bx bxs-trash"></i></a>\n' +
+            '<a href="javascript: delete_knowledge(' + res[i]['uid'] + ');"><i class="bx bxs-trash"></i></a>\n' +
             '</div>\n' +
             '</td>\n' +
             '</tr>'
@@ -245,7 +245,7 @@ function knowledge_handleKeyPress(event) {
 
                 //没有获取到返回数据
                 if (response.data == null || (response.data.records != null && response.data.records.length == 0)) {
-                    alert("未查询到该用户,请重新搜索");
+                    alert("未查询到相关知识,请重新搜索");
                     location.reload();
                 }
 
