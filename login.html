@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--favicon-->
+
+  <!--self css-->
+  <!--TODO import your css here-->
+
+  <!--plugins-->
+  <link href="static/css/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+  <link href="static/css/simplebar.css" rel="stylesheet">
+  <link href="static/css/perfect-scrollbar.css" rel="stylesheet">
+  <link href="static/css/metisMenu.min.css" rel="stylesheet">
+  <!-- loader-->
+  <link href="static/css/pace.min.css" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/css/css2.css" rel="stylesheet">
+  <link href="static/css/app.css" rel="stylesheet">
+  <link href="static/css/icons.css" rel="stylesheet">
+  <!-- Theme Style CSS -->
+  <link rel="stylesheet" href="static/css/dark-theme.css">
+  <link rel="stylesheet" href="static/css/semi-dark.css">
+  <link rel="stylesheet" href="static/css/header-colors.css">
+  <title>防诈骗输入法</title>
+</head>
+
+
+<body style="background-image: url(static/image/008.jpg)">
+
+<div class="page-wrapper" style="position: absolute">
+    <div class="row" >
+      <div class="container col-md-4 col-xl-5 mx-auto">
+        <div class="card-title text-center">
+          <i class="bx bxs-user-circle text-dark font-50"></i>
+          <h5 class="mb-5 mt-2 text-dark">User Login</h5>
+        </div>
+        <hr>
+        <form class="row g-3" >
+          <div class="col-12">
+            <label for="inputLastEnterUsername" class="form-label">Enter Username</label>
+            <div class="input-group input-group-lg"> <span class="input-group-text bg-transparent"><i class='bx bxs-user'></i></span>
+              <input type="text" class="form-control border-start-0" id="inputLastEnterUsername" placeholder="Enter Username">
+            </div>
+          </div>
+          <div class="col-12">
+            <label for="inputLastEnterPassword" class="form-label">Enter Password</label>
+            <div class="input-group input-group-lg"> <span class="input-group-text bg-transparent"><i class='bx bxs-lock-open'></i></span>
+              <input type="text" class="form-control border-start-0" id="inputLastEnterPassword" placeholder="Enter Password">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="d-grid">
+              <button type="submit" class="btn btn-dark btn-lg px-5" onclick="login()"><i class='bx bxs-lock-open'></i>Login</button>
+            </div>
+          </div>
+          <hr>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS -->
+<script src="static/js/bootstrap.bundle.min.js"></script>
+<!--plugins-->
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/simplebar.min.js"></script>
+<script src="static/js/metisMenu.min.js"></script>
+<script src="static/js/perfect-scrollbar.js"></script>
+<script src="static/js/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="static/js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="static/js/Chart.min.js"></script>
+<script src="static/js/Chart.extension.js"></script>
+<script src="static/js/index.js"></script>
+<!--app JS-->
+<script src="static/js/app.js"></script>
+<script src="static/js/pace.min.js"></script>
+
+<!--self js-->
+<!--TODO import your js here-->
+<!--<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>-->
+<script>
+  function login(){
+    var username = $("#inputLastEnterUsername").val();
+    var password = $("#inputLastEnterPassword").val();
+    if (username=="" || password==""){
+      alert("用户名或密码不为空");
+      console.log("fanhui")
+    }
+    $.ajax({
+      url:"http://1.12.74.230/api/admin/login",
+      type:'post',
+      data:JSON.stringify({
+        "username":username,
+        "password":password,
+      }),
+      contentType:"application/json;charset=utf-8",
+      dataType:"json",
+      success:function (message){
+        if (message.code != 200){
+          alert("用户名或密码错误")
+        }else{
+          location.href = 'index.html'
+        }
+      }
+    })
+  }
+</script>
+
+
+</body>
+
+</html>

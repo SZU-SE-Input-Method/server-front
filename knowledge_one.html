@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--favicon-->
+
+  <!--self css-->
+  <!--TODO import your css here-->
+
+  <!--plugins-->
+  <link href="static/css/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+  <link href="static/css/simplebar.css" rel="stylesheet">
+  <link href="static/css/perfect-scrollbar.css" rel="stylesheet">
+  <link href="static/css/metisMenu.min.css" rel="stylesheet">
+  <!-- loader-->
+  <link href="static/css/pace.min.css" rel="stylesheet">
+  <script src="static/js/pace.min.js"></script>
+  <!-- Bootstrap CSS -->
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/css/css2.css" rel="stylesheet">
+  <link href="static/css/app.css" rel="stylesheet">
+  <link href="static/css/icons.css" rel="stylesheet">
+  <!-- Theme Style CSS -->
+  <link rel="stylesheet" href="static/css/dark-theme.css">
+  <link rel="stylesheet" href="static/css/semi-dark.css">
+  <link rel="stylesheet" href="static/css/header-colors.css">
+  <title>防诈骗输入法</title>
+</head>
+
+<body>
+<!--start wrapper-->
+<div class="wrapper">
+
+  <!--start 侧边栏-->
+  <div class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+      <div><img src="static/picture/logo-icon.png" class="logo-icon" alt="logo icon"></div>
+      <div><h4 class="logo-text">防诈骗输入法</h4></div>
+    </div>
+    <!--start 侧边目录-->
+    <ul class="metismenu" id="menu">
+      <li>
+        <a href="index.html">
+          <div class="parent-icon"><i class='bx bx-home-circle'></i></div>
+          <div class="menu-title">首页</div>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="has-arrow">
+          <div class="parent-icon"><i class="bx bx-user"></i></div>
+          <div class="menu-title">用户管理</div>
+        </a>
+        <ul>
+          <li> <a href="#"><i class="bx bx-right-arrow-alt"></i>查看用户</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" class="has-arrow">
+          <div class="parent-icon"><i class='bx bx-text'></i></div>
+          <div class="menu-title">短语</div>
+        </a>
+        <ul>
+          <li> <a href="public_phrases.html?pagenum=1"><i class="bx bx-right-arrow-alt"></i>公有</a></li>
+          <li> <a href="private_phrases.html"><i class="bx bx-right-arrow-alt"></i>私有</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <div class="parent-icon"><i class='bx bx-detail'></i></div>
+          <div class="menu-title">知识</div>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <div class="parent-icon"><i class='bx bx-book-reader'></i></div>
+          <div class="menu-title">案例</div>
+        </a>
+      </li>
+    </ul>
+    <!--end 侧边目录-->
+  </div>
+  <!--end 侧边栏-->
+
+  <!--start 顶部栏-->
+  <header>
+    <div class="topbar d-flex align-items-center">
+      <nav class="navbar navbar-expand">
+
+        <!--start 搜索框-->
+        <div class="search-bar flex-grow-1">
+          <div class="position-relative search-bar-box">
+            <input type="text" class="form-control search-control" placeholder="Type to search..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
+            <span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
+          </div>
+        </div>
+        <!--end 搜索框-->
+
+        <!--start 用户简介-->
+        <div class="user-box dropdown">
+          <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="static/picture/Kotori.jpg" class="user-img" alt="user avatar">
+            <div class="user-info ps-3">
+              <p class="user-name mb-0">Wei Chenghao</p>
+              <p class="designattion mb-0">Administrator</p>
+            </div>
+          </a>
+        </div>
+        <!--end 用户简介-->
+      </nav>
+    </div>
+  </header>
+  <!--end 顶部栏-->
+
+  <!--start 页面主体-->
+  <div class="page-wrapper">
+    <div class="page-content">
+
+      <!--start 主体顶部-->
+      <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+        <div class="breadcrumb-title pe-3">知识</div>
+        <div class="ps-3">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0">
+              <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx bx-text"></i></a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">详细页面</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="ms-auto">
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="window.history.back();">返回</button>
+          </div>
+        </div>
+      </div>
+      <!--end 主体顶部-->
+
+      <!--start 表格-->
+      <div class="card" align="center">
+        <div class="container">
+          <div class="container">
+            <div class="container">
+         <table>
+         <tr >
+           <td align="center" height="80px" style="position: relative" >
+             <span  style="font-family: 方正小标宋简体;font-size: 30px;color: #C70E5C">
+               主标题
+             </span>
+           </td>
+         </tr>
+         <tr>
+           <td align="center" height="30px" style="font-size: 9pt">
+             <font color="#808080">时间</font>
+           </td>
+         </tr>
+         <tr>
+           <td height="300px" valign="top:20px">
+             <p class="MsoNormal" >
+               <span style="mso-spacerun:'yes';font-family:仿宋_GB2312;mso-bidi-font-family:'Times New Roman';
+                font-size: 16pt;" >
+                 正式上市许可第六课时来看看今年年内名称，吗，lllllllll萨科 如今，相信小伙伴们的短信收件箱里躺着不少来自官方的通知信息，而这些信息又有多少是真的呢？借助不断演进的科技手段，骗子经常假冒运营商、银行的官方平台，向大家发送“通知短信”，如果小伙伴们没有仔细辨认，就容易落入他们的圈套。然而，江湖险恶，骗子们的招数也层出不穷，谁也没有办法保证万无一失。为了保护小伙伴的利益，小编在此整理十条防诈骗秘籍， 小伙伴们千万要记牢，不要让坏人得逞！
+
+1：有人要“验证码”，别给
+
+验证码很常见，但它并不是简单的几个数字，代表的是身份的验证！来源不明、自己不知情的验证码千万不要提供给别人，尤其是不能发给陌生号码。一旦不法分子获知了验证码，后果将不堪设想！
+
+
+
+               </span>
+             </p>
+           </td>
+         </tr>
+         </table>
+
+
+</div>
+      </div>
+        </div>
+      </div>
+      <!--end 表格-->
+
+    </div>
+  </div>
+
+  <!--end 页面主体-->
+
+  <footer class="page-footer">
+    <p class="mb-0">Copyright © 2023. All right reserved.</p>
+  </footer>
+
+</div>
+<!--end wrapper-->
+
+<!-- Bootstrap JS -->
+<script src="static/js/bootstrap.bundle.min.js"></script>
+<!--plugins-->
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/simplebar.min.js"></script>
+<script src="static/js/metisMenu.min.js"></script>
+<script src="static/js/perfect-scrollbar.js"></script>
+<script src="static/js/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="static/js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="static/js/Chart.min.js"></script>
+<script src="static/js/Chart.extension.js"></script>
+<script src="static/js/index.js"></script>
+<!--app JS-->
+<script src="static/js/app.js"></script>
+
+<!--self js-->
+<!--TODO import your js here-->
+
+
+
+</body>
+
+</html>
