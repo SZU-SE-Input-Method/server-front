@@ -5,7 +5,7 @@ function initialization(tablename)
 {
     const querystring = window.location.search;
     const urlparams = new URLSearchParams(querystring);
-    const pagesize = 5;
+    const pagesize = 1;
 
     var pagenum = urlparams.get('pagenum');
     if (pagenum == null)
@@ -47,14 +47,22 @@ function get_pagenum(tablename)
     let result = window.prompt("请输入页码:", "1");
     while (result !== null && !/^\d+$/.test(result))
         result = window.prompt("请输入正确的数字页码:", "1");
+
+    var pagelist = document.getElementById("pagelist");
+    var lst = pagelist.querySelectorAll("li");
+    var maxpage = lst[lst.length - 2].innerText;
+    if (parseInt(result) > parseInt(maxpage))
+    {
+        alert("超过页数范围,请重新输入");
+        location.reload();
+        return;
+    }
     
     if (tablename == "public_phrases")
-        url = `/public_phrases.html?pagenum=${result}`;
+        url = `http://1.12.74.230/backend/public_phrases.html?pagenum=${result}`;
     else if (tablename == "private_phrases")
-        url = `/private_phrases.html?pagenum=${result}`;
-
-    if (result !== null)
-        location.href = url;
+        url = `http://1.12.74.230/backend/private_phrases.html?pagenum=${result}`;
+    location.href = url;
 }
 
 //构造公有短语表格内容
