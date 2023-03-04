@@ -17,7 +17,7 @@
   <link href="static/css/metisMenu.min.css" rel="stylesheet">
   <!-- loader-->
   <link href="static/css/pace.min.css" rel="stylesheet">
-  <script src="static/js/pace.min.js"></script>
+
   <!-- Bootstrap CSS -->
   <link href="static/css/bootstrap.min.css" rel="stylesheet">
   <link href="static/css/css2.css" rel="stylesheet">
@@ -66,7 +66,6 @@
 </div>
 
 
-
 <!-- Bootstrap JS -->
 <script src="static/js/bootstrap.bundle.min.js"></script>
 <!--plugins-->
@@ -81,6 +80,7 @@
 <script src="static/js/index.js"></script>
 <!--app JS-->
 <script src="static/js/app.js"></script>
+<script src="static/js/pace.min.js"></script>
 
 <!--self js-->
 <!--TODO import your js here-->
@@ -91,23 +91,23 @@
     var password = $("#inputLastEnterPassword").val();
     if (username=="" || password==""){
       alert("用户名或密码不为空");
-      return;
+      console.log("fanhui")
     }
     $.ajax({
-      url:"/api/admin/login",
+      url:"http://1.12.74.230/api/admin/login",
       type:'post',
       data:JSON.stringify({
-        username:username,
-        password:password,
+        "username":username,
+        "password":password,
       }),
       contentType:"application/json;charset=utf-8",
       dataType:"json",
       success:function (message){
         if (message.code != 200){
           alert("用户名或密码错误")
-          return;
+        }else{
+          location.href = 'index.html'
         }
-        location.href = 'index.html'
       }
     })
   }
