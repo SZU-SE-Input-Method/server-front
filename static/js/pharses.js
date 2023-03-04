@@ -5,7 +5,7 @@ function initialization(tablename)
 {
     const querystring = window.location.search;
     const urlparams = new URLSearchParams(querystring);
-    const pagesize = 1;
+    const pagesize = 5;
 
     var pagenum = urlparams.get('pagenum');
     if (pagenum == null)
