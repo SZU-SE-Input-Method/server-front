@@ -1,0 +1,8 @@
+#knowledge_table a {
+    color: #212529;
+}
+
+#knowledge_table a:hover,
+a:hover~th {
+    color: #008cff;
+}

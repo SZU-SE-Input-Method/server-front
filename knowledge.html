@@ -28,6 +28,9 @@
     <link rel="stylesheet" href="static/css/semi-dark.css">
     <link rel="stylesheet" href="static/css/header-colors.css">
 
+
+    <link rel="stylesheet" href="static/css/knowledge_a.css">
+
     <!-- jquery -->
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script>
@@ -147,8 +150,8 @@
 
                 <!--start 主体顶部-->
                 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-                    <div class="breadcrumb-title pe-3">主标题</div>
-                    <div class="ps-3">
+                    <div class="breadcrumb-title pe-3">知识</div>
+                    <!-- <div class="ps-3">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0 p-0">
                                 <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx bx-text"></i></a>
@@ -156,17 +159,20 @@
                                 <li class="breadcrumb-item active" aria-current="page">知识</li>
                             </ol>
                         </nav>
-                    </div>
+                    </div> -->
                     <div class="ms-auto">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary">操作</button>
                             <button type="button"
                                 class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-                                data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
+                                data-bs-toggle="dropdown">
+                                <span class="visually-hidden">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-                                <a class="dropdown-item" href="javascript:;">按用户id排序</a>
-                                <a class="dropdown-item" href="javascript:;">按名字排序</a>
+                                <a class="dropdown-item" href="javascript:;">按主题排序</a>
+                                <a class="dropdown-item" href="javascript:;">按修改时间排序</a>
+                                <a class="dropdown-item" href="javascript:;">按新增时间排序</a>
+                                <div class="dropdown-divider"></div>
                             </div>
                         </div>
                     </div>
@@ -178,44 +184,35 @@
                 <hr>
                 <div class="card">
                     <div class="card-body">
-                        <table class="table mb-0 table-hover" id="public_phrases_table">
+                        <div class="d-lg-flex align-items-center mb-4 gap-3">
+                            <!-- 搜索栏 -->
+                            <div class="position-relative">
+                                <input type="text" class="form-control ps-5 radius-30" placeholder="搜索知识(Title)"
+                                    id="knowledge_search" onkeypress="knowledge_handleKeyPress(event)">
+                                <span class="position-absolute top-50 product-show translate-middle-y">
+                                    <i class="bx bx-search"></i>
+                                </span>
+                            </div>
+                            <div>&nbsp;</div>
+                            <!-- "添加"按钮 -->
+                            <!-- 新增知识！！！ -->
+                            <div class="ms-auto"><a href="add_knowledge.html"
+                                    class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
+                                        class="bx bxs-plus-square"></i>新增知识</a></div>
+                        </div>
+                        <hr>
+                        <table class="table mb-0 table-hover" id="knowledge_table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Kid</th>
+                                    <!-- <th scope="col">Kid</th> -->
                                     <th scope="col">Title</th>
                                     <th scope="col">Text</th>
-                                    <th scope="col">CreateTime</th>
+                                    <!-- <th scope="col">CreateTime</th> -->
                                     <th scope="col">Operation</th>
 
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">123456789abcd</th>
-                                    <td>蜡笔xiaoxin</td>
-                                    <td>小燕子穿花衣</td>
-                                    <td>2023/2/28 17:00</td>
-                                    <td>
-                                        <div class="d-flex order-actions">
-                                            <a href="#"><i class="bx bxs-edit"></i></a>
-                                            <p>&nbsp;&nbsp;&nbsp;</p>
-                                            <a href="javascript: delete_phrases(1);"><i class="bx bxs-trash"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">123456789abcd</th>
-                                    <td>蜡笔xiaoxin</td>
-                                    <td>小燕子穿花衣</td>
-                                    <td>2023/2/28 17:00</td>
-                                    <td>
-                                        <div class="d-flex order-actions">
-                                            <a href="#"><i class="bx bxs-edit"></i></a>
-                                            <p>&nbsp;&nbsp;&nbsp;</p>
-                                            <a href="javascript: delete_phrases(1);"><i class="bx bxs-trash"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tbody id="knowledge_body">
                             </tbody>
                         </table>
                     </div>
@@ -226,13 +223,7 @@
                 <!--start 进度栏-->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination round-pagination" id="pagelist" style="width: 30%; margin: 0 auto;">
-                        <li class="page-item"><a class="page-link" href="javascript:;">Previous</a></li>
-                        <li class="page-item active"><a class="page-link" href="javascript:;javascript:;"
-                                id="first_page">1</a></li>
-                        <li class="page-item"><a class="page-link" href="javascript:;">2</a></li>
-                        <li class="page-item"><a class="page-link" href="javascript: get_pagenum();">...</a></li>
-                        <li class="page-item"><a class="page-link" href="javascript:;" id="last_page">3</a></li>
-                        <li class="page-item"><a class="page-link" href="javascript:;">Next</a></li>
+
                     </ul>
                 </nav>
                 <!--end 进度栏-->
@@ -265,7 +256,10 @@
 
     <!--self js-->
     <!--TODO import your js here-->
-    <script src="static/js/search-uid.js"></script>
+    <script src="static/js/knowledge.js"></script>
+    <script>
+        initialization("knowledge");
+    </script>
 </body>
 
 </html>
