@@ -55,8 +55,9 @@ function init_knowledge(res) {
     var info = "";
     for (let i = 0; i < res.length; i++) {
         info += '<tr>\n' +
-            '<th scope="row"><a href="javascript:;">' + res[i]['title'] + '</a></th>\n' +
-            '<td><a href="javascript:;">'
+
+            '<th scope="row"><a href="knowledge_one.html?kid=' + res[i]['kid'] + '">' + res[i]['title'] + '</a></th>\n' +
+            '<td><a href="knowledge_one.html?kid=' + res[i]['kid'] + '">'
 
         // 调节知识的隐藏长度
         if (res[i]['text'].length > 5) {
