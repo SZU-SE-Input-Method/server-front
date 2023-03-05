@@ -90,7 +90,7 @@ function public_init_phrasetext(res)
         var div = document.createElement("div");
         div.setAttribute("class","d-flex order-actions")
         var a1 = document.createElement("a");
-        a1.setAttribute("href","javascript:;");
+        a1.setAttribute("href","Javascript:;");
         var i1 = document.createElement("i");
         i1.setAttribute("class","bx bxs-edit");
         a1.appendChild(i1);
@@ -332,19 +332,25 @@ function delete_phrases(pid)
 function handleTableClick(event) 
 {
     const target = event.target;
+    var row;
+
     if (target.tagName.toLowerCase() === 'a') 
     {
         event.preventDefault();
-        const row = target.parentNode.parentNode.parentNode;
-        const cells = row.querySelectorAll('td');
-        const cell1 = cells[0];
-        const cell2 = cells[2];
-
-        var text1 = cell1.innerHTML;
+        row = target.parentNode.parentNode.parentNode;
         
-        cell1.innerHTML = `<input class="form-control" type="text" value=${text1}>`;
-        cell2.innerHTML = '<div class="d-flex order-actions"><button type="button" class="btn btn-info px-3 radius-30" onclick="submitchange(this)">保存</button><p>&nbsp;&nbsp;&nbsp;</p><button type="button" class="btn btn-secondary px-3 radius-30" onclick="cancel(this,`' + text1 + '`)">取消</button></div>';
     }
+    else if (target.tagName.toLowerCase() === "i" && target.classList.contains("bxs-edit"))
+        row = target.parentNode.parentNode.parentNode.parentNode;
+
+    const cells = row.querySelectorAll('td');
+    const cell1 = cells[0];
+    const cell2 = cells[2];
+
+    var text1 = cell1.innerHTML;
+    
+    cell1.innerHTML = `<input class="form-control" type="text" value=${text1}>`;
+    cell2.innerHTML = '<div class="d-flex order-actions"><button type="button" class="btn btn-info px-3 radius-30" onclick="submitchange(this)">保存</button><p>&nbsp;&nbsp;&nbsp;</p><button type="button" class="btn btn-secondary px-3 radius-30" onclick="cancel(this,`' + text1 + '`)">取消</button></div>';
 }
 
 //取消修改短语
