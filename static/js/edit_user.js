@@ -81,7 +81,6 @@ function edit_submit() {
             var response = JSON.parse(xhr.response);
             alert(response.msg);
             window.history.back();
-            location.reload();
         }
     });
     xhr.send(data);
@@ -112,7 +111,7 @@ function cancelEdit() {
 }
 
 //初始化添加用户的输入界面
-function init_user_edit() {
+function init_user_add() {
     var tbody = document.querySelector("tbody");
     tbody.innerHTML = "";
     var info = "";
@@ -182,7 +181,6 @@ function add_user_submit() {
             var response = JSON.parse(xhr.response);
             alert(response.msg);
             window.history.back();
-            location.reload();
         }
     });
     xhr.send(data);
