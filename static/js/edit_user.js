@@ -81,7 +81,6 @@ function edit_submit() {
             var response = JSON.parse(xhr.response);
             alert(response.msg);
             window.history.back();
-            location.reload();
         }
     });
     xhr.send(data);
@@ -183,7 +182,6 @@ function add_user_submit() {
             var response = JSON.parse(xhr.response);
             alert(response.msg);
             window.history.back();
-            location.reload();
         }
     });
     xhr.send(data);
