@@ -76,11 +76,12 @@ function edit_submit() {
 
     xhr.open("PUT", "http://1.12.74.230/api/user");
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.addEventListener("readystatechange", function() {
-        if(this.readyState === 4) {
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
             var response = JSON.parse(xhr.response);
             alert(response.msg);
             window.history.back();
+            location.reload();
         }
     });
     xhr.send(data);
@@ -108,4 +109,81 @@ function cancelEdit() {
     // xhr.send();
 
     initialization();
+}
+
+//初始化添加用户的输入界面
+function init_user_edit() {
+    var tbody = document.querySelector("tbody");
+    tbody.innerHTML = "";
+    var info = "";
+    info +=
+
+        '<tr>' +
+        '<td>' +
+        '<label for="name">Name:</label>' +
+        ' <input class="form-control" id="name" name="name" type="text">' +
+        '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td>' +
+        '<label for="name">Username:</label>' +
+        ' <input class="form-control" id="username" name="username" type="text">' +
+        '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td><label for="password">Password:</label><input class="form-control" id="password" name="password" type="text">' +
+        '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td><label for="gender">Gender:</label><input class="form-control" id="gender" name="gender" type="text">' +
+        '</td>' +
+        '</tr>' +
+
+        '<tr>' +
+        '<td><label for="phone">Phone:</label><input class="form-control" id="phone" name="phone">' +
+        '</td>' +
+        '</tr>' +
+
+
+        '<tr>' +
+        '<td><label for="email">Email:</label><input class="form-control" id="email" name="email" type="text">' +
+        '</td>' +
+        '</tr>'
+
+
+    tbody.innerHTML = info;
+}
+function add_user_submit() {
+    const name = document.getElementById('name').value;
+    const username = document.getElementById('username').value;
+    const phone = document.getElementById('phone').value;
+    const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const gender = document.getElementById('gender').value;
+
+    const data = JSON.stringify({
+        "name": name,
+        "username": username,
+        "phone": phone,
+        "password": password,
+        "email": email,
+        "gender": gender
+    });
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "http://1.12.74.230/api/user");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            var response = JSON.parse(xhr.response);
+            alert(response.msg);
+            window.history.back();
+            location.reload();
+        }
+    });
+    xhr.send(data);
 }
