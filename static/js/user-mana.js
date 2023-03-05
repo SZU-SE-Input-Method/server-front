@@ -65,7 +65,7 @@ function init_user(res) {
             '<td>' + res[i]['createTime'] + '</td>\n' +
             '<td>\n' +
             '<div class="d-flex order-actions">\n' +
-            '<a href="#"><i class="bx bxs-edit"></i></a>\n' +
+            '<a href="edit_user.html?uid=' + res[i]['uid'] + '"><i class="bx bxs-edit"></i></a>\n' +
             '<p>&nbsp;&nbsp;&nbsp;</p>\n' +
             '<a href="javascript: delete_user(' + res[i]['uid'] + ');"><i class="bx bxs-trash"></i></a>\n' +
             '</div>\n' +
