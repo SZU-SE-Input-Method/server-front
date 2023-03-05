@@ -56,10 +56,48 @@
           </div>
           <div class="col-12">
             <div class="d-grid">
-              <button type="submit" class="btn btn-dark btn-lg px-5" onclick="login()"><i class='bx bxs-lock-open'></i>Login</button>
+              <button type="submit" class="btn btn-dark btn-lg px-5" onclick="login();return false" ><i class='bx bxs-lock-open'></i>Login</button>
             </div>
           </div>
           <hr>
+
+          <script>
+            function login()
+            {
+              var username = $("#inputLastEnterUsername").val();
+              var password = $("#inputLastEnterPassword").val();
+              if (username=="" || password ==""){
+                alert("用户名或密码不为空");
+                location.href = 'login.html'
+                // console.log("fanhui")
+              }
+              if (username!="" && username!=null && password!="" && password!=null){
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://1.12.74.230/api/admin/login",true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                let data = { "username": username,"password":password };
+                let jsonData = JSON.stringify(data);
+
+                xhr.onload = function()
+                {
+                  var response = JSON.parse(xhr.response);
+                  // console.log(response);
+                  if (response.code === 200){
+                    alert("登录成功")
+                    location.href = 'index.html'
+                  }
+                  else {
+                    alert("用户名或密码错误")
+                    location.href = 'login.html'
+                  }
+                }
+                xhr.send(jsonData);
+              }
+            }
+
+          </script>
+
         </form>
       </div>
     </div>
@@ -85,34 +123,6 @@
 <!--self js-->
 <!--TODO import your js here-->
 <!--<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>-->
-<script>
-  function login(){
-    var username = $("#inputLastEnterUsername").val();
-    var password = $("#inputLastEnterPassword").val();
-    if (username=="" || password==""){
-      alert("用户名或密码不为空");
-      console.log("fanhui")
-    }
-    $.ajax({
-      url:"http://1.12.74.230/api/admin/login",
-      type:'post',
-      data:JSON.stringify({
-        "username":username,
-        "password":password,
-      }),
-      contentType:"application/json;charset=utf-8",
-      dataType:"json",
-      success:function (message){
-        if (message.code != 200){
-          alert("用户名或密码错误")
-        }else{
-          location.href = 'index.html'
-        }
-      }
-    })
-  }
-</script>
-
 
 </body>
 

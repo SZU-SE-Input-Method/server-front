@@ -142,7 +142,7 @@
       <hr>
       <div class="card">
         <div class="card-body">
-          <table class="table mb-0 table-hover" id="add_phrases_table">
+          <table class="table mb-0 table-hover" >
 
             <tr>
               <th scope="col">请输入知识标题：</th>
@@ -171,7 +171,7 @@
           <hr>
           <div class="align-items-center">
             <div style="float: right;">
-              <button type="button" class="btn btn-primary" onclick="submit();" style="position: inherit">确认提交</button>
+              <button type="button" class="btn btn-primary" onclick="submit()" style="position: inherit">确认提交</button>
             </div>
           </div>
         </div>
@@ -206,34 +206,38 @@
 
 <!--self js-->
 <!--TODO import your js here-->
+
+
 <script>
-  function submit(){
+  function submit()
+  {
     var title = $("#title").val();
     var text = $("#text").val();
-    if (username=="" || password==""){
-      alert("知识标题或知识内容不为空");
-      // console.log("fanhui")
+    if (title=="" || text==""){
+    alert("知识标题或知识内容不为空");
+    location.href = 'add_knowledge.html'
+    // console.log("fanhui")
     }
-    $.ajax({
-      url:"http://1.12.74.230/api/knowledge",
-      type:'post',
-      data:JSON.stringify({
-        "title":title,
-        "text":text,
-      }),
-      contentType:"application/json;charset=utf-8",
-      dataType:"json",
-      success:function (message){
-        if (message.code != 200){
-          alert("添加失败")
-        }else{
-          alert("添加成功")
-          location.href=window.history.back()
+    if (title!="" && text!="" &&title!=null && text!=null){
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://1.12.74.230/api/knowledge");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+          console.log(this.responseText);
         }
-      }
-    })
+      });
+      let data = { "title": title,"text":text };
+      let jsonData = JSON.stringify(data);
+      xhr.send(jsonData);
+      alert("添加成功!");
+      location.href = 'add_knowledge.html'
+    }
+
   }
+
 </script>
+
 
 
 </body>
