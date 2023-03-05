@@ -3,6 +3,8 @@ function initialization() {
     console.log(window.location.search.slice(5));
     uid = window.location.search.slice(5);
     url = `http://1.12.74.230/api/user/${uid}`;
+    console.log(uid);
+    console.log(url);
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.onload = function () {
@@ -71,19 +73,16 @@ function edit_submit() {
     });
 
     const xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-            console.log(this.responseText);
-        }
-    });
 
     xhr.open("PUT", "http://1.12.74.230/api/user");
-    xhr.setRequestHeader("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Nzc3MzY1NTksInVzZXJuYW1lIjoiYWRtaW4ifQ._YnP37NcvX56xu-ZJC6udMs76C7KeYQ9lzjtpFsJ248");
-    xhr.setRequestHeader("User-Agent", "Apifox/1.0.0 (https://www.apifox.cn)");
     xhr.setRequestHeader("Content-Type", "application/json");
-
+    xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+            var response = JSON.parse(xhr.response);
+            alert(response.msg);
+            window.history.back();
+        }
+    });
     xhr.send(data);
 }
 
