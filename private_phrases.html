@@ -9,7 +9,7 @@
 
 	<!--self css-->
 	<!--TODO import your css here-->
-	
+
 	<!--plugins-->
 	<link href="static/css/jquery-jvectormap-2.0.2.css" rel="stylesheet">
 	<link href="static/css/simplebar.css" rel="stylesheet">
@@ -33,12 +33,14 @@
 <body>
 	<!--start wrapper-->
 	<div class="wrapper">
-		
+
 		<!--start 侧边栏-->
 		<div class="sidebar-wrapper" data-simplebar="true">
 			<div class="sidebar-header">
 				<div><img src="static/picture/logo-icon.png" class="logo-icon" alt="logo icon"></div>
-				<div><h4 class="logo-text">防诈骗输入法</h4></div>
+				<div>
+					<h4 class="logo-text">防诈骗输入法</h4>
+				</div>
 			</div>
 			<!--start 侧边目录-->
 			<ul class="metismenu" id="menu">
@@ -49,12 +51,12 @@
 					</a>
 				</li>
 				<li>
-					<a href="#" class="has-arrow">
+					<a href="user_management.html" class="has-arrow">
 						<div class="parent-icon"><i class="bx bx-user"></i></div>
 						<div class="menu-title">用户管理</div>
 					</a>
 					<ul>
-						<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>查看用户</a></li>
+						<li> <a href="user_management.html"><i class="bx bx-right-arrow-alt"></i>查看用户</a></li>
 					</ul>
 				</li>
 				<li>
@@ -68,7 +70,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="#">
+					<a href="knowledge.html">
 						<div class="parent-icon"><i class='bx bx-detail'></i></div>
 						<div class="menu-title">知识</div>
 					</a>
@@ -88,19 +90,23 @@
 		<header>
 			<div class="topbar d-flex align-items-center">
 				<nav class="navbar navbar-expand">
-					
+
 					<!--start 搜索框-->
 					<div class="search-bar flex-grow-1">
 						<div class="position-relative search-bar-box">
-							<input type="text" class="form-control search-control" placeholder="Type to search..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
-							<span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
+							<input type="text" class="form-control search-control" placeholder="Type to search...">
+							<span class="position-absolute top-50 search-show translate-middle-y"><i
+									class='bx bx-search'></i></span>
+							<span class="position-absolute top-50 search-close translate-middle-y"><i
+									class='bx bx-x'></i></span>
 						</div>
 					</div>
 					<!--end 搜索框-->
 
 					<!--start 用户简介-->
 					<div class="user-box dropdown">
-						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
+							role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<img src="static/picture/Kotori.jpg" class="user-img" alt="user avatar">
 							<div class="user-info ps-3">
 								<p class="user-name mb-0">Wei Chenghao</p>
@@ -119,7 +125,7 @@
 			<div class="page-content" style="position: relative;">
 
 				<!--start 主体顶部-->
-                <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 					<div class="breadcrumb-title pe-3">短语</div>
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
@@ -133,49 +139,53 @@
 					<div class="ms-auto">
 						<div class="btn-group">
 							<button type="button" class="btn btn-primary">操作</button>
-							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+							<button type="button"
+								class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
+								data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
 							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	
-                                <a class="dropdown-item" href="javascript:;">按主题排序</a>
+							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
+								<a class="dropdown-item" href="javascript:;">按主题排序</a>
 								<a class="dropdown-item" href="javascript:;">按修改时间排序</a>
 								<a class="dropdown-item" href="javascript:;">按新增时间排序</a>
 							</div>
 						</div>
 					</div>
 				</div>
-                <!--end 主体顶部-->
+				<!--end 主体顶部-->
 
 				<!--start 表格-->
-                <hr>
-                <div class="card">
-                    <div class="card-body">
+				<hr>
+				<div class="card">
+					<div class="card-body">
 						<div class="d-lg-flex align-items-center mb-4 gap-3">
 							<div class="position-relative">
-								<input type="text" class="form-control ps-5 radius-30" placeholder="搜索短语(ID/内容)" id="private_search" onkeypress="private_handleKeyPress(event)"> 
+								<input type="text" class="form-control ps-5 radius-30" placeholder="搜索短语(ID/内容)"
+									id="private_search" onkeypress="private_handleKeyPress(event)">
 								<span class="position-absolute top-50 product-show translate-middle-y">
 									<i class="bx bx-search"></i>
 								</span>
 							</div>
 						</div>
-                        <table class="table mb-0 table-hover" id="private_phrases_table">
+						<table class="table mb-0 table-hover" id="private_phrases_table">
 							<thead>
-                                <tr>
-                                    <th scope="col">pid</th>
-                                    <th scope="col">Text</th>
-                                    <th scope="col">uid</th>
+								<tr>
+									<th scope="col">pid</th>
+									<th scope="col">Text</th>
+									<th scope="col">uid</th>
 									<th scope="row">createTime</th>
-                                </tr>
-                            </thead>
+								</tr>
+							</thead>
 							<tbody>
 							</tbody>
-                        </table>
-                    </div>
-                </div>
-                <!--end 表格-->
+						</table>
+					</div>
+				</div>
+				<!--end 表格-->
 
-                <!--start 进度栏-->
+				<!--start 进度栏-->
 				<nav aria-label="Page navigation example">
-					<ul class="pagination round-pagination" id="pagelist" style="position: absolute; left: 50%; transform: translateX(-50%);">
+					<ul class="pagination round-pagination" id="pagelist"
+						style="position: absolute; left: 50%; transform: translateX(-50%);">
 					</ul>
 				</nav>
 				<!--end 进度栏-->
@@ -199,7 +209,7 @@
 	<script src="static/js/metisMenu.min.js"></script>
 	<script src="static/js/perfect-scrollbar.js"></script>
 	<script src="static/js/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="static/js/jquery-jvectormap-world-mill-en.js"></script>
+	<script src="static/js/jquery-jvectormap-world-mill-en.js"></script>
 	<script src="static/js/Chart.min.js"></script>
 	<script src="static/js/Chart.extension.js"></script>
 	<script src="static/js/index.js"></script>
