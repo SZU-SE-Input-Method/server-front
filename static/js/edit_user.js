@@ -54,7 +54,7 @@ function init_user_edit(res) {
 
     tbody.innerHTML = info;
 }
-
+//提交修改
 function edit_submit() {
     const uid = document.getElementById('uid').value;
     const name = document.getElementById('name').value;
@@ -81,6 +81,7 @@ function edit_submit() {
             var response = JSON.parse(xhr.response);
             alert(response.msg);
             window.history.back();
+            location.reload();
         }
     });
     xhr.send(data);
@@ -155,6 +156,7 @@ function init_user_add() {
 
     tbody.innerHTML = info;
 }
+//提交添加
 function add_user_submit() {
     const name = document.getElementById('name').value;
     const username = document.getElementById('username').value;
@@ -181,6 +183,7 @@ function add_user_submit() {
             var response = JSON.parse(xhr.response);
             alert(response.msg);
             window.history.back();
+            location.reload();
         }
     });
     xhr.send(data);
