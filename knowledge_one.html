@@ -68,7 +68,7 @@
         </ul>
       </li>
       <li>
-        <a href="#">
+        <a href="knowledge.html">
           <div class="parent-icon"><i class='bx bx-detail'></i></div>
           <div class="menu-title">知识</div>
         </a>
@@ -139,47 +139,8 @@
       <!--end 主体顶部-->
 
       <!--start 表格-->
-      <div class="card" align="center">
-        <div class="container">
-          <div class="container">
-            <div class="container">
-         <table>
-         <tr >
-           <td align="center" height="80px" style="position: relative" >
-             <span  style="font-family: 方正小标宋简体;font-size: 30px;color: #C70E5C">
-               主标题
-             </span>
-           </td>
-         </tr>
-         <tr>
-           <td align="center" height="30px" style="font-size: 9pt">
-             <font color="#808080">时间</font>
-           </td>
-         </tr>
-         <tr>
-           <td height="300px" valign="top:20px">
-             <p class="MsoNormal" >
-               <span style="mso-spacerun:'yes';font-family:仿宋_GB2312;mso-bidi-font-family:'Times New Roman';
-                font-size: 16pt;" >
-                 正式上市许可第六课时来看看今年年内名称，吗，lllllllll萨科 如今，相信小伙伴们的短信收件箱里躺着不少来自官方的通知信息，而这些信息又有多少是真的呢？借助不断演进的科技手段，骗子经常假冒运营商、银行的官方平台，向大家发送“通知短信”，如果小伙伴们没有仔细辨认，就容易落入他们的圈套。然而，江湖险恶，骗子们的招数也层出不穷，谁也没有办法保证万无一失。为了保护小伙伴的利益，小编在此整理十条防诈骗秘籍， 小伙伴们千万要记牢，不要让坏人得逞！
+      <div id="knowledge_one"></div>
 
-1：有人要“验证码”，别给
-
-验证码很常见，但它并不是简单的几个数字，代表的是身份的验证！来源不明、自己不知情的验证码千万不要提供给别人，尤其是不能发给陌生号码。一旦不法分子获知了验证码，后果将不堪设想！
-
-
-
-               </span>
-             </p>
-           </td>
-         </tr>
-         </table>
-
-
-</div>
-      </div>
-        </div>
-      </div>
       <!--end 表格-->
 
     </div>
@@ -215,5 +176,75 @@
 
 
 </body>
+<script>
+  function get_one() {
+    // 获取url参数
+    var path = location.href;
+    var urls = path.split("kid=");
+    var kid = urls[1];
+    // alert(kid)
+    console.log(kid);
+
+    var url = "http://1.12.74.230/api/knowledge/"+kid+"";
+    let xhr = new XMLHttpRequest();
+    let data = { "kid": kid };
+    let jsonData = JSON.stringify(data);
+    xhr.open("GET", url);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        var response = JSON.parse(xhr.response);
+
+        var res = response.data;
+        var info = "";
+
+        info += "<div class=\"card\" align=\"center\">" +
+                "<div class=\"container\">"+
+                "<div class=\"container\">"+
+                "<div class=\"container\">"+
+                "<table>"+
+                "<tr >"+
+                " <td align=\"center\" height=\"80px\" style=\"position: relative\" >" +
+                "<span  style=\"font-family: 方正小标宋简体;font-size: 30px;color: #C70E5C\">"+
+                res.title +
+                " </span>"+
+                "</td>"+
+                "</tr>"+
+                "<tr>"+
+                "<td align=\"center\" height=\"30px\" style=\"font-size: 9pt\">"+
+                "<font color=\"#808080\">"+
+                res.createTime +
+                "</font>"+
+                "</td>"+
+                "</tr>"+
+                "<tr>" +
+                "<td height=\"300px\" valign=\"top:20px\">"+
+                "<p class=\"MsoNormal\" >"+
+                "<span style=\"mso-spacerun:'yes';font-family:仿宋_GB2312;mso-bidi-font-family:'Times New Roman';\n" +
+                "                font-size: 16pt;\" >"+
+                res.text+
+                "</span>"+
+                "</p>"+
+                "</td>"+
+                "</tr>"+
+                "</table>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "</div>";
+
+      document.getElementById("knowledge_one").innerHTML = info;
+    }
+  }
+  // function get_one(){
+  //   var strUrl = location.href;
+  //   url = strUrl.split("kid=");
+  //   alert(url[1]);
+  // }
+</script>
+<script>
+  get_one();
+</script>
 
 </html>

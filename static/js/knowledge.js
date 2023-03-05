@@ -55,7 +55,10 @@ function init_knowledge(res) {
     var info = "";
     for (let i = 0; i < res.length; i++) {
         info += '<tr>\n' +
+<<<<<<< HEAD
 
+=======
+>>>>>>> d8f1f911c32327bbc49b32a20c8d8ffa1bd3be2b
             '<th scope="row"><a href="knowledge_one.html?kid=' + res[i]['kid'] + '">' + res[i]['title'] + '</a></th>\n' +
             '<td><a href="knowledge_one.html?kid=' + res[i]['kid'] + '">'
 
