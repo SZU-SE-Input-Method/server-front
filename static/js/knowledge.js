@@ -226,15 +226,10 @@ function delete_knowledge(kid) {
 //搜索知识（title）
 function knowledge_handleKeyPress(event) {
     if (event.keyCode === 13) {
-        var inputContent = document.getElementById("knowledge_search").value;
+        var inputTitle = document.getElementById("knowledge_search").value;
 
-        var kid = parseInt(inputContent);
-        var url = "";
 
-        if (/^\d+$/.test(inputContent))
-            url = `http://1.12.74.230//api/knowledge/${kid}`;
-        else
-            url = `http://1.12.74.230/api/knowledge/page/1/5`;
+        url = `http://1.12.74.230/api/knowledge/page/1/5?title=${inputTitle}`;
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
