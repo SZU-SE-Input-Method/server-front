@@ -60,8 +60,8 @@ function init_knowledge(res) {
             '<td><a href="knowledge_one.html?kid=' + res[i]['kid'] + '">'
 
         // 调节知识的隐藏长度
-        if (res[i]['text'].length > 5) {
-            info += res[i]['text'].slice(0, 5) + "..."
+        if (res[i]['text'].length > 35) {
+            info += res[i]['text'].slice(0, 35) + "..."
         }
         else {
             info += res[i]['text']
