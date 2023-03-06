@@ -292,7 +292,7 @@ function get_tablevalue()
     }
 
     alert("添加成功!");
-    window.history.back();
+    location.href = "http://1.12.74.230/backend/public_phrases.html";
 }
 
 function upload(text)
