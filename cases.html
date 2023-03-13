@@ -27,7 +27,7 @@
 	<link rel="stylesheet" href="static/css/dark-theme.css">
 	<link rel="stylesheet" href="static/css/semi-dark.css">
 	<link rel="stylesheet" href="static/css/header-colors.css">
-	<title>防诈骗输入法</title>
+	<title>防诈骗输入法-公有短语</title>
 </head>
 
 <body>
@@ -122,17 +122,17 @@
 
 		<!--start 页面主体-->
 		<div class="page-wrapper">
-			<div class="page-content">
+			<div class="page-content" style="position: relative;">
 
 				<!--start 主体顶部-->
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">主标题</div>
+					<div class="breadcrumb-title pe-3">案例</div>
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx bx-text"></i></a>
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-book-reader"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">(&lt- 图标换成相应的) 副标题</li>
+								<li class="breadcrumb-item active" aria-current="page">查看案例</li>
 							</ol>
 						</nav>
 					</div>
@@ -141,43 +141,66 @@
 							<button type="button" class="btn btn-primary">操作</button>
 							<button type="button"
 								class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-								data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
+								data-bs-toggle="dropdown">
+								<span class="visually-hidden">Toggle Dropdown</span>
 							</button>
 							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-								<a class="dropdown-item" href="javascript:;">子操作1</a>
+								<a class="dropdown-item" href="javascript:;">按主题排序</a>
+								<a class="dropdown-item" href="javascript:;">按修改时间排序</a>
+								<a class="dropdown-item" href="javascript:;">按新增时间排序</a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="javascript:;">子操作2</a>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!--end 主体顶部-->
 
-				<!--TODO write your code here-->
-				<div class="error-404 align-items-center justify-content-center">
-					<div class="container">
-						<div class="card py-5">
-							<div class="row g-0">
-								<div class="col col-xl-5">
-									<div class="card-body p-4">
-										<h1 class="display-1"><span class="text-primary">4</span><span class="text-danger">0</span><span class="text-success">4</span></h1>
-										<h2 class="font-weight-bold display-4">Lost in Space</h2>
-										<p>You have reached the edge of the universe.
-											<br>The page you requested could not be found.
-											<br>Dont'worry and return to the previous page.</p>
-										<div class="mt-5"> <a href="javascript:;" class="btn btn-primary btn-lg px-md-5 radius-30">Go Home</a>
-											<a href="javascript:;" class="btn btn-outline-dark btn-lg ms-3 px-md-5 radius-30">Back</a>
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-7">
-									<img src="static/picture/shutterstock_1338315902.png" class="img-fluid" alt="">
-								</div>
+				<!--start 表格-->
+				<hr>
+				<div class="card">
+					<div class="card-body">
+						<div class="d-lg-flex align-items-center mb-4 gap-3">
+							<div class="position-relative">
+								<input type="text" class="form-control ps-5 radius-30" placeholder="搜索短语(ID/内容)"
+									id="public_search" onkeypress="public_handleKeyPress(event)">
+								<span class="position-absolute top-50 product-show translate-middle-y">
+									<i class="bx bx-search"></i>
+								</span>
 							</div>
-							<!--end row-->
+							<div class="ms-auto"><a href="add_phrases.html"
+									class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
+										class="bx bxs-plus-square"></i>新增短语</a></div>
 						</div>
+						<hr>
+						<table class="table mb-0 table-hover" id="public_phrases_table">
+							<colgroup>
+								<col style="width: 10%; height: 30px;">
+                                <col style="width: 50%; height: 30px;">
+                                <col style="width: 20%; height: 30px;">
+								<col style="width: 20%; height: 30px;">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">内容</th>
+									<th scope="col">上传时间</th>
+									<th scope="col">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
 					</div>
 				</div>
+				<!--end 表格-->
+
+				<!--start 进度栏-->
+				<nav aria-label="Page navigation example">
+					<ul class="pagination round-pagination" id="pagelist"
+						style="position: absolute; left: 50%; transform: translateX(-50%);">
+					</ul>
+				</nav>
+				<!--end 进度栏-->
 
 			</div>
 		</div>
@@ -207,6 +230,12 @@
 
 	<!--self js-->
 	<!--TODO import your js here-->
+	<script src="static/js/pharses.js"></script>
+	<script>
+		initialization("public_phrases");
+		const table = document.getElementById('public_phrases_table');
+		table.addEventListener('click', handleTableClick);
+	</script>
 
 </body>
 
