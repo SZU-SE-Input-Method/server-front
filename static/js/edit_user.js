@@ -24,31 +24,31 @@ function init_user_edit(res) {
     var info = "";
     info += '<tr>' +
         '<td>' +
-        '<label for="uid">UID:</label>' +
+        '<label for="uid">编号:</label>' +
         '<input class="form-control" id="uid" name="uid" type="text" value="' + res.data['uid'] + '">' +
         '</td>' +
         '</tr>' +
 
         '<tr>' +
         '<td>' +
-        '<label for="name">Name:</label>' +
+        '<label for="name">姓名:</label>' +
         ' <input class="form-control" id="name" name="name" type="text" value="' + res.data['name'] + '">' +
         '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td><label for="phone">Phone:</label><input class="form-control" id="phone" name="phone" value="' + res.data['phone'] + '">' +
+        '<td><label for="phone">电话:</label><input class="form-control" id="phone" name="phone" value="' + res.data['phone'] + '">' +
         '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td><label for="password">Password:</label><input class="form-control" id="password" name="password" type="text" value="' + res.data['password'] + '">' +
+        '<td><label for="password">密码:</label><input class="form-control" id="password" name="password" type="text" value="' + res.data['password'] + '">' +
         '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td><label for="email">Email:</label><input class="form-control" id="email" name="email" type="text" value="' + res.data['email'] + '">' +
+        '<td><label for="email">邮箱:</label><input class="form-control" id="email" name="email" type="text" value="' + res.data['email'] + '">' +
         '</td>' +
         '</tr>' +
         '<tr>' +
-        '<td><label for="gender">Gender:</label><input class="form-control" id="gender" name="gender" type="text" value="' + res.data['gender'] + '">' +
+        '<td><label for="gender">性别:</label><input class="form-control" id="gender" name="gender" type="text" value="' + res.data['gender'] + '">' +
         '</td>' +
         '</tr>'
 
@@ -119,36 +119,36 @@ function init_user_add() {
 
         '<tr>' +
         '<td>' +
-        '<label for="name">Name:</label>' +
+        '<label for="name">姓名:</label>' +
         ' <input class="form-control" id="name" name="name" type="text">' +
         '</td>' +
         '</tr>' +
 
         '<tr>' +
         '<td>' +
-        '<label for="name">Username:</label>' +
+        '<label for="name">用户名:</label>' +
         ' <input class="form-control" id="username" name="username" type="text">' +
         '</td>' +
         '</tr>' +
 
         '<tr>' +
-        '<td><label for="password">Password:</label><input class="form-control" id="password" name="password" type="text">' +
+        '<td><label for="password">密码:</label><input class="form-control" id="password" name="password" type="text">' +
         '</td>' +
         '</tr>' +
 
         '<tr>' +
-        '<td><label for="gender">Gender:</label><input class="form-control" id="gender" name="gender" type="text">' +
+        '<td><label for="gender">性别:</label><input class="form-control" id="gender" name="gender" type="text">' +
         '</td>' +
         '</tr>' +
 
         '<tr>' +
-        '<td><label for="phone">Phone:</label><input class="form-control" id="phone" name="phone">' +
+        '<td><label for="phone">联系电话:</label><input class="form-control" id="phone" name="phone">' +
         '</td>' +
         '</tr>' +
 
 
         '<tr>' +
-        '<td><label for="email">Email:</label><input class="form-control" id="email" name="email" type="text">' +
+        '<td><label for="email">邮箱:</label><input class="form-control" id="email" name="email" type="text">' +
         '</td>' +
         '</tr>'
 

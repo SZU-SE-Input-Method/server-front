@@ -151,15 +151,15 @@
                 <!--start 主体顶部-->
                 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
                     <div class="breadcrumb-title pe-3">知识</div>
-                    <!-- <div class="ps-3">
+                    <div class="ps-3">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0 p-0">
-                                <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx bx-text"></i></a>
+                                <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx bx-detail"></i></a>
                                 </li>
-                                <li class="breadcrumb-item active" aria-current="page">知识</li>
+                                <!-- <li class="breadcrumb-item active" aria-current="page">知识</li> -->
                             </ol>
                         </nav>
-                    </div> -->
+                    </div>
                     <div class="ms-auto">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary">操作</button>
@@ -205,10 +205,11 @@
                             <thead>
                                 <tr>
                                     <!-- <th scope="col">Kid</th> -->
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Text</th>
+                                    <th scope="col">编号</th>
+                                    <th scope="col">标题</th>
+                                    <th scope="col">内容</th>
                                     <!-- <th scope="col">CreateTime</th> -->
-                                    <th scope="col">Operation</th>
+                                    <th scope="col">操作</th>
 
                                 </tr>
                             </thead>
@@ -216,8 +217,9 @@
 
                                 <!-- 调节表格比例 -->
                                 <colgroup>
+                                    <col style="width: 10%;">
                                     <col style="width: 15%;">
-                                    <col style="width: 73%;">
+                                    <col style="width: 63%;">
                                     <col style="width: 12%;">
                                 </colgroup>
                             </tbody>
@@ -229,7 +231,8 @@
 
                 <!--start 进度栏-->
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination round-pagination" id="pagelist" style="position: absolute; left: 50%; transform: translateX(-50%);">
+                    <ul class="pagination round-pagination" id="pagelist"
+                        style="position: absolute; left: 50%; transform: translateX(-50%);">
 
                     </ul>
                 </nav>
